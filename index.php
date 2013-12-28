@@ -84,7 +84,7 @@
 <b>Se connecter</b><br>
     <small>
       <a href=\"compte.php\">Je n'ai pas encore de compte sur Monnaie M - Créer un compte</a><br>
-      <a href=\"compte.php?activer=1\">J'ai reçu mon code d'activation par courrier - Activer mon compte</a><br>
+      <a href=\"compte.php?activer=1\">J'ai reçu mon code d'activation par courrier postal - Activer mon compte</a><br>
       <a href=\"http://merome.net/monnaiem/compte.php?oubli=1\">J'ai oublié mon mot de passe ou je souhaite le modifier</a>
     </small>
     <br><br>

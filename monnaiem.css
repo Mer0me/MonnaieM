@@ -1,0 +1,26 @@
+/*
+ +-------------------------------------------------------------------------+
+ | Monnaie M - http://merome.net/monnaiem                                                              |
+ +-------------------------------------------------------------------------+
+ | Auteur : Jérôme VUITTENEZ - Merome : postmaster@merome.net              |
+ +-------------------------------------------------------------------------+
+*/
+body{
+background: #ffffff;
+color: #222222;
+font:12px Verdana,Arial,Helvetica,sans-serif;
+}
+
+font,th,td,p{color: #222222; font:12px Verdana,Arial,Helvetica,sans-serif}
+a:link,a:active,a:visited,a.postlink:link{color:#0000FF;text-decoration:none}
+a:hover{color: #00AAFF;text-decoration:underline}
+
+#accueil {
+	width:1024px;
+	height:768px;
+	background-color:#FFFFFF;
+  text-align:center;
+  font:16px Verdana,Arial,Helvetica,sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+	}

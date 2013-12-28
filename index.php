@@ -73,7 +73,8 @@
     - le fonctionnement et le rôle d'une monnaie,<br>
     - les Systèmes d'Echanges Locaux (SEL),<br>
     - le concept de revenu de base,<br>
-    - les monnaies complémentaires.</center></td></tr></table><hr>
+    - les monnaies complémentaires.<br><br>
+    Le code de Monnaie M est libre ! Pour l'examiner ou contribuer à son développement, <a href=\"https://github.com/Mer0me/MonnaieM\">cliquez ici</a></center></td></tr></table><hr>
 <b>Comment ça marche ?</b><br>C'est comme \"Le bon coin\" ou \"Priceminister\", mais avec une monnaie virtuelle et un revenu de base :<br><br>
 <a href=\"http://merome.net/monnaiem/compte.php\"><img border=\"0\" src=\"images/1.png\" title=\"Je communique mon adresse postale à l'inscription\"></a>
 <img src=\"images/2.png\" title=\"Un crédit de 50 unités m'est attribué pour commencer les échanges\">

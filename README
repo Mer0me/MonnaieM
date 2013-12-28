@@ -23,4 +23,23 @@ d'échange de biens et de services entre des membres inscrits, grâce à une
 monnaie virtuelle (appelée le « M »).
 
 Si vous souhaitez participer au développement de Monnaie M, merci de prendre
-contact avec l'auteur.
+contact avec l'auteur. Dépôt Github : https://github.com/Mer0me/MonnaieM
+
+Le fichier config.php est volontairement manquant dans le dépôt GitHub, sa
+structure doit être la suivante :
+
+// Accès à la base de données
+$host="";
+$user="";
+$pwd="";
+$db="";
+
+// Adresse où les messages d'erreurs Mysql sont envoyés
+$admin="";
+
+// Adresse d'expédition des mails envoyés aux utilisateurs par le logiciel
+$from="";
+
+// URL de base du site (ne pas oublier le "/" final)
+$baseurl="";
+

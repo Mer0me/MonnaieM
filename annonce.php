@@ -3,7 +3,7 @@
  +-------------------------------------------------------------------------+
  | Monnaie M - http://merome.net/monnaiem                                                              |
  +-------------------------------------------------------------------------+
- | Auteur : Jérôme VUITTENEZ - Merome : postmaster@merome.net              |
+ | Auteur : JÃ©rÃ´me VUITTENEZ - Merome : postmaster@merome.net              |
  +-------------------------------------------------------------------------+
 */
   session_start();
@@ -24,18 +24,18 @@
 <html>
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Monnaie M - Expérimentation d'une monnaie complémentaire assortie d'un revenu de base</title>
+  <title>Monnaie M - ExpÃ©rimentation d'une monnaie complÃ©mentaire assortie d'un revenu de base</title>
   <link rel="stylesheet" href="monnaiem.css" typeproduit="text/css">
-  <meta name="description" content="Monnaie M est une expérimentation visant à faire connaître et promouvoir le fonctionnement et le rôle d'une monnaie, 
-  les Systèmes d'Echanges Locaux, le concept de revenu de base, les monnaies complémentaires.">
-  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc création monétaire SEL revenu de base dividende universel">
+  <meta name="description" content="Monnaie M est une expÃ©rimentation visant Ã  faire connaÃ®tre et promouvoir le fonctionnement et le rÃ´le d'une monnaie, 
+  les SystÃ¨mes d'Echanges Locaux, le concept de revenu de base, les monnaies complÃ©mentaires.">
+  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc crÃ©ation monÃ©taire SEL revenu de base dividende universel">
   </head>
   <script type="text/javascript" src="fonctions.js"></script>
   <body>
 <?php 
 
     echo("<div id=\"accueil\"><a href=\"index.php\"><img border=\"0\" src=\"images/bandeau.png\"></a><br><br>");
-    echo("<a target=\"_new\" href=\"http://merome.net/monnaiem/phpBB3\">Accéder au forum de monnaie M</a><br><br>");
+    echo("<a target=\"_new\" href=\"http://merome.net/monnaiem/phpBB3\">AccÃ©der au forum de monnaie M</a><br><br>");
 
     if($_POST["achatannonce"]>0)
     {
@@ -60,7 +60,7 @@
           else
             $prixfinal=$annonce["prix"];
         }
-        echo("Vous êtes sur le point d'acheter \"".$annonce["objet"]."\" pour ".$prixfinal." <img align=\"middle\" src=\"images/m.png\"> ".$livraison."<br><br>");
+        echo("Vous Ãªtes sur le point d'acheter \"".$annonce["objet"]."\" pour ".$prixfinal." <img align=\"middle\" src=\"images/m.png\"> ".$livraison."<br><br>");
       ?>
         <form method="post" action="annonce.php">
               <input type="hidden" name="achatconfirme" value="<?php  echo($_POST["achatannonce"]); ?>">
@@ -105,29 +105,29 @@
           if($solde["solde"]>=$prixfinal)
           {
             if($annonce["nbex"]<1 || $annonce["valide"]==0)
-              echo("Cette annonce n'est plus disponible. Merci de votre compréhension<br>");
+              echo("Cette annonce n'est plus disponible. Merci de votre comprÃ©hension<br>");
             else
             {
               if($annonce["nbex"]>=1)
               {
                     exec_requete("update produit set nbex=nbex-1 where idproduit=".$_POST["achatconfirme"]);
                     exec_requete("INSERT INTO `monnaiem`.`transaction` (`acheteur` ,`vendeur` ,`idproduit` ,`datevente` ,`statut` ,`prix` ,port, `note` ,`commentaires`)
-                                  VALUES ('".$_SESSION["citoyen"]["idcitoyen"]."', '".$annonce["idcitoyen"]."', '".$_POST["achatconfirme"]."', now() , 'Commandé', ".$prixfinal.",".$_POST["port"].", '', '')");
+                                  VALUES ('".$_SESSION["citoyen"]["idcitoyen"]."', '".$annonce["idcitoyen"]."', '".$_POST["achatconfirme"]."', now() , 'CommandÃ©', ".$prixfinal.",".$_POST["port"].", '', '')");
                     exec_requete("update citoyen set solde=solde-".$prixfinal. " where idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."'");
 
-                    mail($annonce["mail"], "Félicitations, vous avez une nouvelle vente sur Monnaie M",
-                          $_SESSION["citoyen"]["idcitoyen"]." vient d'acheter le produit ".$annonce["objet"]." pour ".$prixfinal." M ".$livraison.". Pour confirmer cette vente, merci de vous connecter à Monnaie M : http://merome.net/monnaiem \r\n",
+                    mail($annonce["mail"], "FÃ©licitations, vous avez une nouvelle vente sur Monnaie M",
+                          $_SESSION["citoyen"]["idcitoyen"]." vient d'acheter le produit ".$annonce["objet"]." pour ".$prixfinal." M ".$livraison.". Pour confirmer cette vente, merci de vous connecter Ã  Monnaie M : http://merome.net/monnaiem \r\n",
                           "From: ".FROM."\r\n"
     							."Reply-To: ".FROM."\r\n"
     							."X-Mailer: PHP/" . phpversion());
 
                   mail($_SESSION["citoyen"]["mail"], "Enregistrement de votre achat sur Monnaie M",
-                          "Vous venez d'acheter sur Monnaie M le produit ".$annonce["objet"]." pour ".$prixfinal." M ".$livraison.".\n".$annonce["idcitoyen"]." a été prévenu par mail. \r\n",
+                          "Vous venez d'acheter sur Monnaie M le produit ".$annonce["objet"]." pour ".$prixfinal." M ".$livraison.".\n".$annonce["idcitoyen"]." a Ã©tÃ© prÃ©venu par mail. \r\n",
                           "From: ".FROM."\r\n"
     							."Reply-To: ".FROM."\r\n"
     							."X-Mailer: PHP/" . phpversion());
 
-                    die("Un mail vient d'être envoyé au vendeur pour l'avertir de votre achat. Lorsque vous recevrez votre commande, merci de confirmer la réception et de noter le vendeur<br>");
+                    die("Un mail vient d'Ãªtre envoyÃ© au vendeur pour l'avertir de votre achat. Lorsque vous recevrez votre commande, merci de confirmer la rÃ©ception et de noter le vendeur<br>");
               }
             }
 
@@ -148,10 +148,10 @@
           else
           {
             if($annonce["nbex"]<1)
-              echo("Cette annonce n'est plus disponible. Merci de votre compréhension<br>");
+              echo("Cette annonce n'est plus disponible. Merci de votre comprÃ©hension<br>");
             else
             {
-              echo("<table align=\"center\"><tr><td>".$annonce["categorie"]." - <b>".$annonce["objet"]."</b> proposé par <a title=\"envoyer un message à ".$annonce["idcitoyen"]."\" href=\"mail.php?c=".urlencode($annonce["idcitoyen"])."\">".$annonce["idcitoyen"]."</a>. (".$annonce["notevendeur"]."/5 pour ".$annonce["nbventes"]." vente(s)).</td></tr>");
+              echo("<table align=\"center\"><tr><td>".$annonce["categorie"]." - <b>".$annonce["objet"]."</b> proposÃ© par <a title=\"envoyer un message Ã  ".$annonce["idcitoyen"]."\" href=\"mail.php?c=".urlencode($annonce["idcitoyen"])."\">".$annonce["idcitoyen"]."</a>. (".$annonce["notevendeur"]."/5 pour ".$annonce["nbventes"]." vente(s)).</td></tr>");
               if($annonce["photo"]!="")
                 echo("<tr><td><img width=\"400\" src=\"".$annonce["photo"]."\"></td></tr>");
               else
@@ -183,7 +183,7 @@
 
                     if($annonce["mainspropres"]=="Oui")
                     {
-                      echo("<tr><td>Remise en mains propres possible (autour de ".$annonce["cp"]." ".$annonce["ville"]." ou en ligne/par téléphone): <b>".$annonce["mainspropres"]."</b></td></tr>");
+                      echo("<tr><td>Remise en mains propres possible (autour de ".$annonce["cp"]." ".$annonce["ville"]." ou en ligne/par tÃ©lÃ©phone): <b>".$annonce["mainspropres"]."</b></td></tr>");
                       if($_SESSION["citoyen"]["solde"]>=$annonce["prix"])
                       {
                         if($annonce["prix"]==0)
@@ -220,14 +220,14 @@
           else
           {
           	$repedest = $_SERVER['DOCUMENT_ROOT']."/monnaiem/images/produits/";
-          	$search  = array ('ë', 'ï', 'à', 'ç', 'á', 'é', 'í', 'ó', 'ú', 'ã', 'õ', 'â', 'ê', 'î', 'ô', 'û', ' ', "'");
+          	$search  = array ('Ã«', 'Ã¯', 'Ã ', 'Ã§', 'Ã¡', 'Ã©', 'Ã­', 'Ã³', 'Ãº', 'Ã£', 'Ãµ', 'Ã¢', 'Ãª', 'Ã®', 'Ã´', 'Ã»', ' ', "'");
           	$replace = array ('e', 'i', 'a', 'c', 'a', 'e', 'i', 'o', 'u', 'a', 'o', 'a', 'e', 'i', 'o', 'u', '_', "_");
           	$nomdest = substr(rawurlencode(str_replace($search, $replace,date("YmdHis")."_".$fichier_name)),0,500);
           	$cheminphoto="http://merome.net/monnaiem/images/produits/".$nomdest;
 
           	if (file_exists($fichier))
           	{
-          	    // ici on déplace le fichier ou on veut
+          	    // ici on dÃ©place le fichier ou on veut
           	    if (!move_uploaded_file($fichier,$repedest.$nomdest))
           	    {
           	        echo ("Impossible de copier la photo");
@@ -271,7 +271,7 @@
               exec_requete("update `produit` set`objet`= '".strip_tags($_POST["objet"])."',`typeproduit`= '".$_POST["typeproduit"]."',`description` ='".strip_tags($_POST["description"]).
                         "',`photo`='".$cheminphoto."' ,`icone` ='".$cheminicone."' ,`nbex`='".$_POST["nbex"]."' ,`valide`=1 ,`prix`='".$_POST["prix"]."' ,`dateexpiration`='".to_date($_POST["dateexpiration"])."' ,`etat`='".$_POST["etat"].
                         "',`envoipossible`='".$_POST["envoipossible"]."' ,fdp=".$_POST["fdp"].",`mainspropres`='".$_POST["mainspropres"]."' ,`categorie`='".$_POST["categorie"]."' where idproduit=".$_POST["annoncemodif"]);
-            die("Annonce modifiée");
+            die("Annonce modifiÃ©e");
           }
           else
             die("Vous ne pouvez pas modifier les annonces des autres.<br>");
@@ -285,7 +285,7 @@
       		$_POST["fdp"]=0;
         exec_requete("INSERT INTO `monnaiem`.`produit` (`idcitoyen` ,`objet` ,`typeproduit` , typeannonce, `description` ,`photo` ,`icone` ,`nbex` ,`valide` ,`prix` , fdp, `datesaisie` , dateexpiration, `etat` ,`envoipossible` ,`mainspropres` ,`categorie`) VALUES ('".
                        $_SESSION["citoyen"]["idcitoyen"]."', '".strip_tags($_POST["objet"])."', '".$_POST["typeproduit"]."', 'offre', '".strip_tags($_POST["description"])."', '".$cheminphoto."', '".$cheminicone."', '".$nbex."', 1, '".$prix."', ".$_POST["fdp"].",now(), '".to_date($_POST["dateexpiration"])."', '".$_POST["etat"]."', '".$envoipossible."', '".$mainspropres."', '".$categorie."')");
-        echo("Votre annonce est enregistrée. Elle apparait dans la liste de vos annonces en cours (vous ne pouvez voir vos propres annonces dans la liste des dernières annonces saisies)<br><br>");
+        echo("Votre annonce est enregistrÃ©e. Elle apparait dans la liste de vos annonces en cours (vous ne pouvez voir vos propres annonces dans la liste des derniÃ¨res annonces saisies)<br><br>");
       }
 
     }
@@ -306,13 +306,13 @@
            $mesannonces=exec_requete("select * from produit where nbex>0 and valide>0 and idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."' and idproduit<>".$_GET["suppr"]);
            if(mysql_num_rows($mesannonces)==0)
            {
-              $mestransactions=exec_requete("select * from transaction where acheteur='".$_SESSION["citoyen"]["idcitoyen"]."' and statut<>'Terminé' and statut<>'Annulé'");
+              $mestransactions=exec_requete("select * from transaction where acheteur='".$_SESSION["citoyen"]["idcitoyen"]."' and statut<>'TerminÃ©' and statut<>'AnnulÃ©'");
               if(mysql_num_rows($mestransactions)>0)
                 die("Vous ne pouvez pas supprimer cette annonce car vous avez une transaction en cours.");
            }
            else
               exec_requete("delete from produit where idproduit=".$annonce["idproduit"]);
-		die("Annonce supprimée");
+		die("Annonce supprimÃ©e");
         }
         if($_GET["modif"]==$annonce["idproduit"])
         {
@@ -332,7 +332,7 @@
     if($_GET["modif"]>0)
         echo("<center><b>Modifier une de vos annonces</b></center><br><br>");
     else
-        echo("<center><b>Proposer un bien ou un service</b><br><small><i>Toute annonce illégale sera supprimée</i></small></center><br><br>");
+        echo("<center><b>Proposer un bien ou un service</b><br><small><i>Toute annonce illÃ©gale sera supprimÃ©e</i></small></center><br><br>");
 
 
 
@@ -340,37 +340,37 @@
     <table align="center">
       <form method="post" action="annonce.php" enctype="multipart/form-data">
       <?php  if ($champmodif!="") echo($champmodif); ?>
-      <tr><td align="right">Nom du bien ou du service à proposer :</td><td><input type="text" name="objet" value="<?php  echo($annonceamodifier["objet"]); ?>"></td></tr>
+      <tr><td align="right">Nom du bien ou du service Ã  proposer :</td><td><input type="text" name="objet" value="<?php  echo($annonceamodifier["objet"]); ?>"></td></tr>
       <tr><td align="right">Type de produit :</td><td><select name="typeproduit"><option value="bien" <?php  if ($annonceamodifier["typeproduit"]=="bien") echo("selected"); ?>>Objet, bien</option><option value="service" <?php  if ($annonceamodifier["typeproduit"]=="service") echo("selected"); ?>>Service</option></select></td></tr>
-      <tr><td align="right">Catégorie :</td><td><select name="categorie">
+      <tr><td align="right">CatÃ©gorie :</td><td><select name="categorie">
                         <option value="0">&laquo;Choisissez la cat&eacute;gorie&raquo;</option>
                         <option value='1' style='background-color:#dcdcc3' disabled id='cat1' >-&#45; VEHICULES -&#45;</option>
                             <option value='Voitures' <?php  if ($annonceamodifier["categorie"]=="Voitures") echo("selected"); ?>>Voitures</option>
                             <option value='Motos' <?php  if ($annonceamodifier["categorie"]=="Motos") echo("selected"); ?>>Motos</option>
-                            <option value='Vélos' <?php  if ($annonceamodifier["categorie"]=="Vélos") echo("selected"); ?>>V&eacute;los</option>
+                            <option value='VÃ©los' <?php  if ($annonceamodifier["categorie"]=="VÃ©los") echo("selected"); ?>>V&eacute;los</option>
                             <option value='Equipement Auto' <?php  if ($annonceamodifier["categorie"]=="Equipement Auto") echo("selected"); ?>>Equipement Auto</option>
                             <option value='Equipement Moto' <?php  if ($annonceamodifier["categorie"]=="Equipement Moto") echo("selected"); ?>>Equipement Moto</option>
                             <option value='Nautisme' <?php  if ($annonceamodifier["categorie"]=="Nautisme") echo("selected"); ?>>Nautisme</option>
                             <option value='Equipement Nautisme' <?php  if ($annonceamodifier["categorie"]=="Equipement Nautisme") echo("selected"); ?>>Equipement Nautisme</option>
                             <option value='14' style='background-color:#dcdcc3' disabled id='cat14' >-&#45; MULTIMEDIA -&#45;</option>
                             <option value='Informatique'  <?php  if ($annonceamodifier["categorie"]=="Informatique") echo("selected"); ?>>Informatique</option>
-                            <option value='Console & Jeux vidéos'  <?php  if ($annonceamodifier["categorie"]=="Console & Jeux vidéos") echo("selected"); ?>>Consoles &amp; Jeux vid&eacute;o</option>
+                            <option value='Console & Jeux vidÃ©os'  <?php  if ($annonceamodifier["categorie"]=="Console & Jeux vidÃ©os") echo("selected"); ?>>Consoles &amp; Jeux vid&eacute;o</option>
                             <option value='Image & son' <?php  if ($annonceamodifier["categorie"]=="Image & son") echo("selected"); ?> >Image &amp; Son</option>
-                            <option value='Téléphonie' <?php  if ($annonceamodifier["categorie"]=="Téléphonie") echo("selected"); ?> >T&eacute;l&eacute;phonie</option>
+                            <option value='TÃ©lÃ©phonie' <?php  if ($annonceamodifier["categorie"]=="TÃ©lÃ©phonie") echo("selected"); ?> >T&eacute;l&eacute;phonie</option>
                             <option value='18' style='background-color:#dcdcc3' disabled id='cat18' >-&#45; MAISON -&#45;</option>
                             <option value='Ameublement' <?php  if ($annonceamodifier["categorie"]=="Ameublement") echo("selected"); ?> >Ameublement</option>
-                            <option value='Electroménager' <?php  if ($annonceamodifier["categorie"]=="Electroménager") echo("selected"); ?> >Electrom&eacute;nager</option>
+                            <option value='ElectromÃ©nager' <?php  if ($annonceamodifier["categorie"]=="ElectromÃ©nager") echo("selected"); ?> >Electrom&eacute;nager</option>
                             <option value='Arts de la table' <?php  if ($annonceamodifier["categorie"]=="Arts de la table") echo("selected"); ?> >Arts de la table</option>
-                            <option value='Décoration' <?php  if ($annonceamodifier["categorie"]=="Décoration") echo("selected"); ?> >D&eacute;coration</option>
+                            <option value='DÃ©coration' <?php  if ($annonceamodifier["categorie"]=="DÃ©coration") echo("selected"); ?> >D&eacute;coration</option>
                             <option value='Linge de maison' <?php  if ($annonceamodifier["categorie"]=="Linge de maison") echo("selected"); ?> >Linge de maison</option>
                             <option value='Bricolage' <?php  if ($annonceamodifier["categorie"]=="Bricolage") echo("selected"); ?> >Bricolage</option>
                             <option value='Jardinage' <?php  if ($annonceamodifier["categorie"]=="Jardinage") echo("selected"); ?> >Jardinage</option>
-                            <option value='Vêtements' <?php  if ($annonceamodifier["categorie"]=="Vêtements") echo("selected"); ?> >V&ecirc;tements</option>
+                            <option value='VÃªtements' <?php  if ($annonceamodifier["categorie"]=="VÃªtements") echo("selected"); ?> >V&ecirc;tements</option>
                             <option value='Chaussures' <?php  if ($annonceamodifier["categorie"]=="Chaussures") echo("selected"); ?> >Chaussures</option>
                             <option value='Accessoires & Bagagerie' <?php  if ($annonceamodifier["categorie"]=="Accessoires & Bagagerie") echo("selected"); ?> >Accessoires &amp; Bagagerie</option>
                             <option value='Montres & Bijoux' <?php  if ($annonceamodifier["categorie"]=="Montres & Bijoux") echo("selected"); ?> >Montres &amp; Bijoux</option>
-                            <option value='Equipement bébé' <?php  if ($annonceamodifier["categorie"]=="Equipement bébé") echo("selected"); ?> >Equipement b&eacute;b&eacute;</option>
-                            <option value='Vêtements bébé' <?php  if ($annonceamodifier["categorie"]=="Vêtements bébé") echo("selected"); ?> >V&ecirc;tements b&eacute;b&eacute;</option>
+                            <option value='Equipement bÃ©bÃ©' <?php  if ($annonceamodifier["categorie"]=="Equipement bÃ©bÃ©") echo("selected"); ?> >Equipement b&eacute;b&eacute;</option>
+                            <option value='VÃªtements bÃ©bÃ©' <?php  if ($annonceamodifier["categorie"]=="VÃªtements bÃ©bÃ©") echo("selected"); ?> >V&ecirc;tements b&eacute;b&eacute;</option>
                             <option value='24' style='background-color:#dcdcc3' disabled id='cat24' >-&#45; LOISIRS -&#45;</option>
                             <option value='DVD / Films' <?php  if ($annonceamodifier["categorie"]=="DVD / Films") echo("selected"); ?> >DVD / Films</option>
                             <option value='CD / Musique' <?php  if ($annonceamodifier["categorie"]=="CD / Musique") echo("selected"); ?> >CD / Musique</option>
@@ -381,27 +381,27 @@
                             <option value='Collection' <?php  if ($annonceamodifier["categorie"]=="Collection") echo("selected"); ?> >Collection</option>
                             <option value='Jeux & Jouets' <?php  if ($annonceamodifier["categorie"]=="Jeux & Jouets") echo("selected"); ?> >Jeux &amp; Jouets</option>
                             <option value='Vins & Gastronomie' <?php  if ($annonceamodifier["categorie"]=="Vins & Gastronomie") echo("selected"); ?> >Vins &amp; Gastronomie</option>
-                            <option value='Alimentation générale' <?php  if ($annonceamodifier["categorie"]=="Alimentation générale") echo("selected"); ?> >Alimentation générale</option>
+                            <option value='Alimentation gÃ©nÃ©rale' <?php  if ($annonceamodifier["categorie"]=="Alimentation gÃ©nÃ©rale") echo("selected"); ?> >Alimentation gÃ©nÃ©rale</option>
                             <option value='Parfums' <?php  if ($annonceamodifier["categorie"]=="Parfums") echo("selected"); ?> >Parfums</option>
                             <option value='31' style='background-color:#dcdcc3' disabled id='cat31' >-&#45; EMPLOI &amp; SERVICES -&#45;</option>
-                            <option value='Matériel professionnel' <?php  if ($annonceamodifier["categorie"]=="Matériel professionnel") echo("selected"); ?> >Mat&eacute;riel professionnel</option>
+                            <option value='MatÃ©riel professionnel' <?php  if ($annonceamodifier["categorie"]=="MatÃ©riel professionnel") echo("selected"); ?> >Mat&eacute;riel professionnel</option>
                             <option value='Services' <?php  if ($annonceamodifier["categorie"]=="Services") echo("selected"); ?>>Services</option>
                             <option value='Cours particuliers'   <?php  if ($annonceamodifier["categorie"]=="Cours particuliers") echo("selected"); ?> >Cours particuliers</option>
                             <option value='37' style='background-color:#dcdcc3' disabled id='cat37' >-&#45; -&#45; -&#45;</option>
                             <option value='Autres'  <?php  if ($annonceamodifier["categorie"]=="Autres") echo("selected"); ?> >Autres</option>
                     </select></td></tr>
-      <tr><td align="right">Description complète :</td><td><textarea name="description" rows="10" cols="80"><?php  echo($annonceamodifier["description"]); ?></textarea></td></tr>
+      <tr><td align="right">Description complÃ¨te :</td><td><textarea name="description" rows="10" cols="80"><?php  echo($annonceamodifier["description"]); ?></textarea></td></tr>
       <?php 
         if($annonceamodifier["photo"]!="")
           echo("<tr><td align=\"right\">Photo actuelle : <td><img src=\"".$annonceamodifier["icone"]."\"></td></tr>");
       ?>
       <tr><td align="right">Photo (JPG) :</td><td><input type="file" name="fichier"></td></tr>
-      <tr><td align="right">Nombre d'exemplaires :</td><td><input onKeyUp="javascript:verifInt(this);" onChange="javascript:if (this.value<=0 || this.value=='') this.value='1';" size="4" type="text" name="nbex" value="<?php  if($annonceamodifier["nbex"]>0) echo($annonceamodifier["nbex"]); else echo("1"); ?>"> (un exemplaire minimum, même pour les services)</td></tr>
-      <tr><td align="right">Date d'expiration  :</td><td><input type="text" size="10" name="dateexpiration" value="<?php  echo(to_str($annonceamodifier["dateexpiration"])); ?>" onFocus="FormatDate(this)" onKeyPress="FormatDate(this)" onKeyUp="FormatDate(this);jmodif=1;" onBlur="FormatDate(this)">(date à partir de laquelle l'annonce disparaitra du site)</td></tr>
-      <tr><td align="right">Prix :</td><td><input type="text" onKeyUp="javascript:verifInt(this);" size="4" name="prix" value="<?php  echo($annonceamodifier["prix"]); ?>">&nbsp;<img align="middle" src="images/m.png"> (Saisir "0" si vous souhaitez que l'acheteur choisisse lui-même le prix au moment de la commande)</td></tr>
-      <tr><td align="right">Etat :</td><td><select name="etat"><option value="Comme neuf" <?php  if ($annonceamodifier["etat"]=="Comme neuf") echo("selected"); ?>>Comme neuf</option><option value="Bon état" <?php  if ($annonceamodifier["etat"]=="Bon état") echo("selected"); ?>>Bon état</option><option value="Fonctionnel" <?php  if ($annonceamodifier["etat"]=="Fonctionnel") echo("selected"); ?>>Fonctionnel</option><option value="Hors d'usage" <?php  if ($annonceamodifier["etat"]=="Hors d'usage") echo("selected"); ?>>Hors d'usage</option></select></td></tr>
-      <tr><td align="right">Envoi possible par la Poste :</td><td><select name="envoipossible"><option value="Oui" <?php  if ($annonceamodifier["envoipossible"]=="Oui") echo("selected"); ?>>Oui</option><option value="Non" <?php  if ($annonceamodifier["envoipossible"]=="Non") echo("selected"); ?>>Non</option></select>&nbsp;Frais de port à prévoir : <input onKeyUp="javascript:verifInt(this);" type="text" name="fdp" size="4" value="<?php  echo($annonceamodifier["fdp"]); ?>">&nbsp;<img src="images/m.png" align="middle"></td></tr>
-      <tr><td align="right">Remise en mains propres possible :</td><td><select name="mainspropres"><option value="Oui" <?php  if ($annonceamodifier["mainspropres"]=="Oui") echo("selected"); ?>>Oui</option><option value="Non" <?php  if ($annonceamodifier["mainspropres"]=="Non") echo("selected"); ?>>Non</option></select> (Si ni l'envoi, ni la remise en mains propres n'est possible, le produit ne pourra pas être acheté !)</td></tr>
+      <tr><td align="right">Nombre d'exemplaires :</td><td><input onKeyUp="javascript:verifInt(this);" onChange="javascript:if (this.value<=0 || this.value=='') this.value='1';" size="4" type="text" name="nbex" value="<?php  if($annonceamodifier["nbex"]>0) echo($annonceamodifier["nbex"]); else echo("1"); ?>"> (un exemplaire minimum, mÃªme pour les services)</td></tr>
+      <tr><td align="right">Date d'expiration  :</td><td><input type="text" size="10" name="dateexpiration" value="<?php  echo(to_str($annonceamodifier["dateexpiration"])); ?>" onFocus="FormatDate(this)" onKeyPress="FormatDate(this)" onKeyUp="FormatDate(this);jmodif=1;" onBlur="FormatDate(this)">(date Ã  partir de laquelle l'annonce disparaitra du site)</td></tr>
+      <tr><td align="right">Prix :</td><td><input type="text" onKeyUp="javascript:verifInt(this);" size="4" name="prix" value="<?php  echo($annonceamodifier["prix"]); ?>">&nbsp;<img align="middle" src="images/m.png"> (Saisir "0" si vous souhaitez que l'acheteur choisisse lui-mÃªme le prix au moment de la commande)</td></tr>
+      <tr><td align="right">Etat :</td><td><select name="etat"><option value="Comme neuf" <?php  if ($annonceamodifier["etat"]=="Comme neuf") echo("selected"); ?>>Comme neuf</option><option value="Bon Ã©tat" <?php  if ($annonceamodifier["etat"]=="Bon Ã©tat") echo("selected"); ?>>Bon Ã©tat</option><option value="Fonctionnel" <?php  if ($annonceamodifier["etat"]=="Fonctionnel") echo("selected"); ?>>Fonctionnel</option><option value="Hors d'usage" <?php  if ($annonceamodifier["etat"]=="Hors d'usage") echo("selected"); ?>>Hors d'usage</option></select></td></tr>
+      <tr><td align="right">Envoi possible par la Poste :</td><td><select name="envoipossible"><option value="Oui" <?php  if ($annonceamodifier["envoipossible"]=="Oui") echo("selected"); ?>>Oui</option><option value="Non" <?php  if ($annonceamodifier["envoipossible"]=="Non") echo("selected"); ?>>Non</option></select>&nbsp;Frais de port Ã  prÃ©voir : <input onKeyUp="javascript:verifInt(this);" type="text" name="fdp" size="4" value="<?php  echo($annonceamodifier["fdp"]); ?>">&nbsp;<img src="images/m.png" align="middle"></td></tr>
+      <tr><td align="right">Remise en mains propres possible :</td><td><select name="mainspropres"><option value="Oui" <?php  if ($annonceamodifier["mainspropres"]=="Oui") echo("selected"); ?>>Oui</option><option value="Non" <?php  if ($annonceamodifier["mainspropres"]=="Non") echo("selected"); ?>>Non</option></select> (Si ni l'envoi, ni la remise en mains propres n'est possible, le produit ne pourra pas Ãªtre achetÃ© !)</td></tr>
 
       <tr><td colspan="2" align="center"><input type="submit" value="Valider"></td></tr>
 

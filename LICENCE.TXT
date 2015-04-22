@@ -8,7 +8,7 @@
  | distribuer sous les termes de la licence BSD                            |
  |                                                                         |
  +-------------------------------------------------------------------------+
- | Auteur : Jérôme VUITTENEZ - Merome : postmaster@merome.net              |
+ | Auteur : JÃ©rÃ´me VUITTENEZ - Merome : postmaster@merome.net              |
  +-------------------------------------------------------------------------+
 
 Copyright (c) 2013, Merome

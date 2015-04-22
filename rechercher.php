@@ -3,7 +3,7 @@
  +-------------------------------------------------------------------------+
  | Monnaie M - http://merome.net/monnaiem                                                              |
  +-------------------------------------------------------------------------+
- | Auteur : Jérôme VUITTENEZ - Merome : postmaster@merome.net              |
+ | Auteur : JÃ©rÃ´me VUITTENEZ - Merome : postmaster@merome.net              |
  +-------------------------------------------------------------------------+
 */
   session_start();
@@ -20,11 +20,11 @@
 <html>
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Monnaie M - Expérimentation d'une monnaie complémentaire assortie d'un revenu de base</title>
+  <title>Monnaie M - ExpÃ©rimentation d'une monnaie complÃ©mentaire assortie d'un revenu de base</title>
   <link rel="stylesheet" href="monnaiem.css" typeproduit="text/css">
-  <meta name="description" content="Monnaie M est une expérimentation visant à faire connaître et promouvoir le fonctionnement et le rôle d'une monnaie, 
-  les Systèmes d'Echanges Locaux, le concept de revenu de base, les monnaies complémentaires.">
-  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc création monétaire SEL revenu de base dividende universel">
+  <meta name="description" content="Monnaie M est une expÃ©rimentation visant Ã  faire connaÃ®tre et promouvoir le fonctionnement et le rÃ´le d'une monnaie, 
+  les SystÃ¨mes d'Echanges Locaux, le concept de revenu de base, les monnaies complÃ©mentaires.">
+  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc crÃ©ation monÃ©taire SEL revenu de base dividende universel">
   </head>
   <body>
 <?php 
@@ -56,7 +56,7 @@
     $i=0;
     if(mysql_num_rows($resultats)>0)
     {
-      echo("<b>Résultats correspondants à la recherche :</b><br><table align=\"center\">");
+      echo("<b>RÃ©sultats correspondants Ã  la recherche :</b><br><table align=\"center\">");
 
       while(($annonce=mysql_fetch_array($resultats)) && $i<50)
       {
@@ -65,7 +65,7 @@
       }
     }
     else
-      echo("Votre recherche n'a retourné aucun résultat");
+      echo("Votre recherche n'a retournÃ© aucun rÃ©sultat");
 
     echo("</div>");
 

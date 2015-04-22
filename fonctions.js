@@ -2,7 +2,7 @@
  +-------------------------------------------------------------------------+
  | Monnaie M - http://merome.net/monnaiem                                                              |
  +-------------------------------------------------------------------------+
- | Auteur : Jérôme VUITTENEZ - Merome : postmaster@merome.net              |
+ | Auteur : JÃ©rÃ´me VUITTENEZ - Merome : postmaster@merome.net              |
  +-------------------------------------------------------------------------+
 */
  function FormatDate(champ_date) {
@@ -19,7 +19,7 @@
         champ_date.value = value_date;
     }
 
-    // Empêche la double saisie d'un "/"
+    // EmpÃªche la double saisie d'un "/"
     p = "\/\/";
     if (value_date.match(p)) {
         value_date = value_date.replace(p, "/");

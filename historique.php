@@ -3,7 +3,7 @@
  +-------------------------------------------------------------------------+
  | Monnaie M - http://merome.net/monnaiem                                                              |
  +-------------------------------------------------------------------------+
- | Auteur : Jérôme VUITTENEZ - Merome : postmaster@merome.net              |
+ | Auteur : JÃ©rÃ´me VUITTENEZ - Merome : postmaster@merome.net              |
  +-------------------------------------------------------------------------+
 */
 
@@ -20,11 +20,11 @@
 <html>
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Monnaie M - Expérimentation d'une monnaie complémentaire assortie d'un revenu de base</title>
+  <title>Monnaie M - ExpÃ©rimentation d'une monnaie complÃ©mentaire assortie d'un revenu de base</title>
   <link rel="stylesheet" href="monnaiem.css" typeproduit="text/css">
-  <meta name="description" content="Monnaie M est une expérimentation visant à faire connaître et promouvoir le fonctionnement et le rôle d'une monnaie, 
-  les Systèmes d'Echanges Locaux, le concept de revenu de base, les monnaies complémentaires.">
-  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc création monétaire SEL revenu de base dividende universel">
+  <meta name="description" content="Monnaie M est une expÃ©rimentation visant Ã  faire connaÃ®tre et promouvoir le fonctionnement et le rÃ´le d'une monnaie, 
+  les SystÃ¨mes d'Echanges Locaux, le concept de revenu de base, les monnaies complÃ©mentaires.">
+  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc crÃ©ation monÃ©taire SEL revenu de base dividende universel">
   </head>
   <body>
 <?php 
@@ -34,7 +34,7 @@
     echo("<a onclick=\"javascript:if(document.getElementById('global').style.display=='block') document.getElementById('global').style.display='none'; else document.getElementById('global').style.display='block'\">Cliquez ici pour voir ou faire disparaitre l'historique global de Monnaie M</a><br><br>");
 
     $historiques=exec_requete("select * from historique order by datemesure");
-    echo("<div id=\"global\" style=\"display:none;\"><table border=\"1\" align=\"center\"><tr align=\"center\"><td>Date</td><td>Nombre d'utilisateurs</td><td>Masse monétaire totale (après revenu)</td><td>Masse monétaire moyenne</td><td>Revenu de base</td></tr>");
+    echo("<div id=\"global\" style=\"display:none;\"><table border=\"1\" align=\"center\"><tr align=\"center\"><td>Date</td><td>Nombre d'utilisateurs</td><td>Masse monÃ©taire totale (aprÃ¨s revenu)</td><td>Masse monÃ©taire moyenne</td><td>Revenu de base</td></tr>");
     while($historique=mysql_fetch_array($historiques))
     {
       echo("<tr align=\"center\"><td>".to_str($historique["datemesure"])."</td><td>".$historique["nbutilisateurs"]."</td><td>".$historique["massetotale"]."&nbsp;<img align=\"middle\" src=\"images/m.png\"></td><td>".$historique["massemoyenne"]."&nbsp;<img align=\"middle\" src=\"images/m.png\"></td><td>".$historique["rdb"]."&nbsp;<img align=\"middle\" src=\"images/m.png\"></td></tr>");
@@ -52,8 +52,8 @@
     $ccitoyen=mysql_fetch_array(exec_requete("select dateadhesion,solde from citoyen where idcitoyen='".$nomh."'"));
     $solde=50;
 
-    echo("<table border=\"1\" align=\"center\"><tr><td>Date</td><td>Acheteur</td><td>Vendeur</td><td>Evènement</td><td>Note</td><td>Commentaires de l'acheteur</td><td>Solde</td></tr>
-          <tr><td>".to_str($ccitoyen["dateadhesion"])."</td><td>&nbsp;</td><td>&nbsp;</td><td>Inscription à Monnaie M</td><td>&nbsp;</td><td>&nbsp;</td><td>50&nbsp;<img align=\"middle\" src=\"images/m.png\"></td>");
+    echo("<table border=\"1\" align=\"center\"><tr><td>Date</td><td>Acheteur</td><td>Vendeur</td><td>EvÃ¨nement</td><td>Note</td><td>Commentaires de l'acheteur</td><td>Solde</td></tr>
+          <tr><td>".to_str($ccitoyen["dateadhesion"])."</td><td>&nbsp;</td><td>&nbsp;</td><td>Inscription Ã  Monnaie M</td><td>&nbsp;</td><td>&nbsp;</td><td>50&nbsp;<img align=\"middle\" src=\"images/m.png\"></td>");
 
       $transactions=exec_requete("select *,transaction.prix as prixt from citoyen,transaction,produit where ((vendeur=citoyen.idcitoyen) or (acheteur=citoyen.idcitoyen)) and produit.idproduit=transaction.idproduit and citoyen.idcitoyen='".$nomh."' order by datevente");
       if(mysql_num_rows($transactions)>0)
@@ -64,16 +64,16 @@
           {
             switch($transaction["statut"])
             {
-              case "Terminé":
+              case "TerminÃ©":
                 $solde+=$transaction["prixt"];
                 echo("<tr bgcolor=\"#CCFF99\"><td>".to_str($transaction["datevente"])."</td><td>".$transaction["acheteur"]."</td><td>".$transaction["vendeur"]."</td><td>Vente / ".$transaction["categorie"]."</td><td>".$transaction["note"]."/5</td><td>".$transaction["commentaires"]."</td><td>".$solde."&nbsp;<img align=\"middle\" src=\"images/m.png\">&nbsp;(+".$transaction["prixt"]."&nbsp;<img align=\"middle\" src=\"images/m.png\">)</td></tr>");
                 break;
-              case "Commandé":
-              case "confirmé":
+              case "CommandÃ©":
+              case "confirmÃ©":
                 echo("<tr bgcolor=\"#FFFF99\"><td>".to_str($transaction["datevente"])."</td><td>".$transaction["acheteur"]."</td><td>".$transaction["vendeur"]."</td><td>Vente / ".$transaction["categorie"]."</td><td>".$transaction["note"]."/5</td><td>En attente de finalisation</td><td>(+".$transaction["prixt"]."&nbsp;<img align=\"middle\" src=\"images/m.png\">&nbsp;en&nbsp;attente)</td></tr>");
                 break;
-              case "Annulé":
-                echo("<tr bgcolor=\"#FF9999\"><td>".to_str($transaction["datevente"])."</td><td>".$transaction["acheteur"]."</td><td>".$transaction["vendeur"]."</td><td>Vente / ".$transaction["categorie"]."</td><td>-</td><td>Annulé : ".$transaction["commentaires"]."</td><td>-</td></tr>");
+              case "AnnulÃ©":
+                echo("<tr bgcolor=\"#FF9999\"><td>".to_str($transaction["datevente"])."</td><td>".$transaction["acheteur"]."</td><td>".$transaction["vendeur"]."</td><td>Vente / ".$transaction["categorie"]."</td><td>-</td><td>AnnulÃ© : ".$transaction["commentaires"]."</td><td>-</td></tr>");
                 break;
             }
           }
@@ -81,17 +81,17 @@
           {
             switch($transaction["statut"])
             {
-              case "Terminé":
+              case "TerminÃ©":
                 $solde-=$transaction["prixt"];
                 echo("<tr bgcolor=\"#FFCCFF\"><td>".to_str($transaction["datevente"])."</td><td>".$transaction["acheteur"]."</td><td>".$transaction["vendeur"]."</td><td>Achat / ".$transaction["categorie"]."</td><td>".$transaction["note"]."/5</td><td>".$transaction["commentaires"]."</td><td>".$solde."&nbsp;<img align=\"middle\" src=\"images/m.png\">&nbsp;(-".$transaction["prixt"]."&nbsp;<img align=\"middle\" src=\"images/m.png\">)</td></tr>");
                 break;
-              case "Commandé":
-              case "confirmé":
+              case "CommandÃ©":
+              case "confirmÃ©":
                 $solde-=$transaction["prixt"];
                 echo("<tr bgcolor=\"#FFCCFF\"><td>".to_str($transaction["datevente"])."</td><td>".$transaction["acheteur"]."</td><td>".$transaction["vendeur"]."</td><td>Achat / ".$transaction["categorie"]."</td><td>En attente</td><td>En attente de finalisation</td><td>".$solde."&nbsp;<img align=\"middle\" src=\"images/m.png\">&nbsp;(-".$transaction["prixt"]."&nbsp;<img align=\"middle\" src=\"images/m.png\">)</td></tr>");
                 break;
-              case "Annulé":
-                echo("<tr bgcolor=\"#FF9999\"><td>".to_str($transaction["datevente"])."</td><td>".$transaction["acheteur"]."</td><td>".$transaction["vendeur"]."</td><td>Achat / ".$transaction["categorie"]."</td><td>Annulé</td><td>".$transaction["commentaires"]."</td><td>-</td></tr>");
+              case "AnnulÃ©":
+                echo("<tr bgcolor=\"#FF9999\"><td>".to_str($transaction["datevente"])."</td><td>".$transaction["acheteur"]."</td><td>".$transaction["vendeur"]."</td><td>Achat / ".$transaction["categorie"]."</td><td>AnnulÃ©</td><td>".$transaction["commentaires"]."</td><td>-</td></tr>");
                 break;
             }
           }

@@ -3,7 +3,7 @@
  +-------------------------------------------------------------------------+
  | Monnaie M - http://merome.net/monnaiem                                                              |
  +-------------------------------------------------------------------------+
- | Auteur : Jérôme VUITTENEZ - Merome : postmaster@merome.net              |
+ | Auteur : JÃ©rÃ´me VUITTENEZ - Merome : postmaster@merome.net              |
  +-------------------------------------------------------------------------+
 */
   session_start();
@@ -12,11 +12,11 @@
 <html>
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Monnaie M - Expérimentation d'une monnaie complémentaire assortie d'un revenu de base</title>
+  <title>Monnaie M - ExpÃ©rimentation d'une monnaie complÃ©mentaire assortie d'un revenu de base</title>
   <link rel="stylesheet" href="monnaiem.css" typeproduit="text/css">
-  <meta name="description" content="Monnaie M est une expérimentation visant à faire connaître et promouvoir le fonctionnement et le rôle d'une monnaie, 
-  les Systèmes d'Echanges Locaux, le concept de revenu de base, les monnaies complémentaires.">
-  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc création monétaire SEL revenu de base dividende universel">
+  <meta name="description" content="Monnaie M est une expÃ©rimentation visant Ã  faire connaÃ®tre et promouvoir le fonctionnement et le rÃ´le d'une monnaie, 
+  les SystÃ¨mes d'Echanges Locaux, le concept de revenu de base, les monnaies complÃ©mentaires.">
+  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc crÃ©ation monÃ©taire SEL revenu de base dividende universel">
   </head>
   <body>
 <?php 
@@ -36,11 +36,11 @@
             $req_mail=exec_requete("select mail from citoyen where idcitoyen like '".$_POST["pseudo"]."'");
             $mail=mysql_fetch_array($req_mail);
 
-            mail($mail["mail"], "Validation de votre compte sur Monnaie M", "Félicitations, votre compte est maintenant entièrement validé. Vous pouvez commencer à utiliser l'espace d'échange Monnaie M.\nhttp://merome.net/monnaiem\n\n
-    Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r\n"
+            mail($mail["mail"], "Validation de votre compte sur Monnaie M", "FÃ©licitations, votre compte est maintenant entiÃ¨rement validÃ©. Vous pouvez commencer Ã  utiliser l'espace d'Ã©change Monnaie M.\nhttp://merome.net/monnaiem\n\n
+    Merci de votre intÃ©rÃªt pour cette expÃ©rimentation.\n\nMerome.","From: ".FROM."\r\n"
     							."Reply-To: ".FROM."\r\n"
     							."X-Mailer: PHP/" . phpversion());
-            die("Compte validé.<br><a href=\"index.php\">Vous pouvez maintenant vous connecter à Monnaie M</a>");
+            die("Compte validÃ©.<br><a href=\"index.php\">Vous pouvez maintenant vous connecter Ã  Monnaie M</a>");
           }
           else
             die("Code d'activation ou pseudo invalide");
@@ -49,7 +49,7 @@
           <center>
           <form method="post" action="compte.php?activer=1">
             Votre pseudo : <input type="text" name="pseudo"><br>
-            Le code d'activation reçu par courrier postal : <input type="text" name="code"><br><br>
+            Le code d'activation reÃ§u par courrier postal : <input type="text" name="code"><br><br>
             <input type="submit" value="Activer mon compte">
           </form>
           </center>
@@ -69,17 +69,17 @@
         if($_POST["pass1"]!=$_POST["pass2"])
         {
           echo("Les deux mots de passe ne correspondent pas !<br><br>");
-          die("Identifiant de votre compte (à retenir !) : ".$compte["idcitoyen"]."<br><form method=\"post\" action=\"compte.php\">
+          die("Identifiant de votre compte (Ã  retenir !) : ".$compte["idcitoyen"]."<br><form method=\"post\" action=\"compte.php\">
               Choisissez votre nouveau mot de passe : <input type=\"password\" name=\"pass1\"><br>
-              Saisissez à nouveau votre nouveau mot de passe pour vérification :<input type=\"password\" name=\"pass2\"><br>
+              Saisissez Ã  nouveau votre nouveau mot de passe pour vÃ©rification :<input type=\"password\" name=\"pass2\"><br>
               <input type=\"hidden\" name=\"c2\" value=\"".$_POST["c2"]."\">
               <input type=\"submit\" value=\"Valider votre changement de mot de passe\"></form>");
         }
         else
         {
-          echo("Identifiant de votre compte (à retenir !) : ".$compte["idcitoyen"]."<br>");
+          echo("Identifiant de votre compte (Ã  retenir !) : ".$compte["idcitoyen"]."<br>");
           exec_requete("update citoyen set mdp=md5('".$_POST["pass1"]."') where md5(concat(idcitoyen,mail)) like '".$_POST["c2"]."' and valide=1");
-          die("Votre mot de passe a été modifié, vous pouvez maintenant essayer <a href=\"index.php\">de vous connecter avec votre nouveau mot de passe</a>");
+          die("Votre mot de passe a Ã©tÃ© modifiÃ©, vous pouvez maintenant essayer <a href=\"index.php\">de vous connecter avec votre nouveau mot de passe</a>");
         }
       }
       else
@@ -94,9 +94,9 @@
       if(mysql_num_rows($req_compte)==1)
       {
         $compte=mysql_fetch_array($req_compte);
-        die("Identifiant de votre compte (à retenir !) : ".$compte["idcitoyen"]."<br><form method=\"post\" action=\"compte.php\">
+        die("Identifiant de votre compte (Ã  retenir !) : ".$compte["idcitoyen"]."<br><form method=\"post\" action=\"compte.php\">
             Choisissez votre nouveau mot de passe : <input type=\"password\" name=\"pass1\"><br>
-            Saisissez à nouveau votre nouveau mot de passe pour vérification :<input type=\"password\" name=\"pass2\"><br>
+            Saisissez Ã  nouveau votre nouveau mot de passe pour vÃ©rification :<input type=\"password\" name=\"pass2\"><br>
             <input type=\"hidden\" name=\"c2\" value=\"".$_GET["c"]."\">
             <input type=\"submit\" value=\"Valider votre changement de mot de passe\"></form>");
       }
@@ -112,19 +112,19 @@
       if(mysql_num_rows($req_mail)==1)
       {
         $compte=mysql_fetch_array($req_mail);
-        mail($compte["mail"], "Réinitialisation du mot de passe", "Une demande de réinitialisation du mot de passe de votre compte Monnaie M vient d'être effectuée avec votre adresse mail.\nSi vous n'en êtes pas à l'origine, ne tenez pas compte de ce message.\n\nCliquez ici pour réinitialiser votre mot de passe : http://merome.net/monnaiem/compte.php?c=".md5($compte["idcitoyen"].$compte["mail"])."\n\n
-        Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r\n"
+        mail($compte["mail"], "RÃ©initialisation du mot de passe", "Une demande de rÃ©initialisation du mot de passe de votre compte Monnaie M vient d'Ãªtre effectuÃ©e avec votre adresse mail.\nSi vous n'en Ãªtes pas Ã  l'origine, ne tenez pas compte de ce message.\n\nCliquez ici pour rÃ©initialiser votre mot de passe : http://merome.net/monnaiem/compte.php?c=".md5($compte["idcitoyen"].$compte["mail"])."\n\n
+        Merci de votre intÃ©rÃªt pour cette expÃ©rimentation.\n\nMerome.","From: ".FROM."\r\n"
 							."Reply-To: ".FROM."\r\n"
 							."X-Mailer: PHP/" . phpversion());
-        die("Il y a bien un compte correspondant à cette adresse mail. Un message vient de vous être envoyé, il vous permettra de changer votre mot de passe");
+        die("Il y a bien un compte correspondant Ã  cette adresse mail. Un message vient de vous Ãªtre envoyÃ©, il vous permettra de changer votre mot de passe");
       }
       else
-        die("Aucun compte n'est associé à cette adresse email<br><br><form method=\"post\" action=\"compte.php\">Avec quelle adresse mail vous êtes-vous inscrit sur Monnaie M ?<input type=\"text\" name=\"oublimail\"><input type=\"submit\" value=\"Réinitialiser mon mot de passe\"></form>");
+        die("Aucun compte n'est associÃ© Ã  cette adresse email<br><br><form method=\"post\" action=\"compte.php\">Avec quelle adresse mail vous Ãªtes-vous inscrit sur Monnaie M ?<input type=\"text\" name=\"oublimail\"><input type=\"submit\" value=\"RÃ©initialiser mon mot de passe\"></form>");
     }
 
     if($_GET["oubli"]==1)
     {
-      echo("<center><form method=\"post\" action=\"compte.php\">Avec quelle adresse mail vous êtes-vous inscrit sur Monnaie M ?&nbsp;<input type=\"text\" name=\"oublimail\"><br><input type=\"submit\" value=\"Réinitialiser mon mot de passe\"></form></center>");
+      echo("<center><form method=\"post\" action=\"compte.php\">Avec quelle adresse mail vous Ãªtes-vous inscrit sur Monnaie M ?&nbsp;<input type=\"text\" name=\"oublimail\"><br><input type=\"submit\" value=\"RÃ©initialiser mon mot de passe\"></form></center>");
       die("");
     }
 
@@ -133,13 +133,13 @@
       include './requete.php';
         $req_mail=exec_requete("select mail from citoyen where idcitoyen='".$_POST["refuse"]."'");
         $mail=mysql_fetch_array($req_mail);
-        mail($mail["mail"], "Refus de votre compte sur Monnaie M", "Votre compte sur Monnaie M n'a pas été accepté pour la raison suivante :\n".$_POST["raison"]."\n\nVous pouvez essayer de vous réinscrire en tenant compte de cette remarque.\n\nhttp://merome.net/monnaiem/compte.php\n\n
-Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r\n"
+        mail($mail["mail"], "Refus de votre compte sur Monnaie M", "Votre compte sur Monnaie M n'a pas Ã©tÃ© acceptÃ© pour la raison suivante :\n".$_POST["raison"]."\n\nVous pouvez essayer de vous rÃ©inscrire en tenant compte de cette remarque.\n\nhttp://merome.net/monnaiem/compte.php\n\n
+Merci de votre intÃ©rÃªt pour cette expÃ©rimentation.\n\nMerome.","From: ".FROM."\r\n"
 							."Reply-To: ".FROM."\r\n"
 							."X-Mailer: PHP/" . phpversion());
          exec_requete("delete from citoyen where idcitoyen='".$_POST["refuse"]."'");
          mysql_close();
-         die("Utilisateur prévenu, compte supprimé.");
+         die("Utilisateur prÃ©venu, compte supprimÃ©.");
     }
 
     if($_GET["avalider"]!="")
@@ -158,11 +158,11 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r
           $req_mail=exec_requete("select mail from citoyen where idcitoyen='".$_GET["avalider"]."'");
           $mail=mysql_fetch_array($req_mail);
 
-          mail($mail["mail"], "Validation de votre compte sur Monnaie M", "Félicitations, votre compte est maintenant entièrement validé. Vous pouvez commencer à utiliser l'espace d'échange Monnaie M.\nhttp://merome.net/monnaiem\n\n
-  Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r\n"
+          mail($mail["mail"], "Validation de votre compte sur Monnaie M", "FÃ©licitations, votre compte est maintenant entiÃ¨rement validÃ©. Vous pouvez commencer Ã  utiliser l'espace d'Ã©change Monnaie M.\nhttp://merome.net/monnaiem\n\n
+  Merci de votre intÃ©rÃªt pour cette expÃ©rimentation.\n\nMerome.","From: ".FROM."\r\n"
   							."Reply-To: ".FROM."\r\n"
   							."X-Mailer: PHP/" . phpversion());
-          die("Compte validé");
+          die("Compte validÃ©");
 
         }
         else
@@ -179,7 +179,7 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r
         mysql_close();
       }
       else
-        echo("Seul l'administrateur du site a accès à cette page");
+        echo("Seul l'administrateur du site a accÃ¨s Ã  cette page");
       die();
     }
 
@@ -192,13 +192,13 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r
       {
         $pseudo=mysql_fetch_array($ps);
         if($pseudo["valide"]==1)
-          echo("Le compte a déjà été validé par un administrateur, si vous n'avez pas reçu d'email, merci de vérifier votre filtre indésirables");
+          echo("Le compte a dÃ©jÃ  Ã©tÃ© validÃ© par un administrateur, si vous n'avez pas reÃ§u d'email, merci de vÃ©rifier votre filtre indÃ©sirables");
         else
         {
             mail(ADMIN,"Nouvel inscrit sur Monnaie M","A valider : http://merome.net/monnaiem/compte.php?avalider=".urlencode($pseudo["idcitoyen"]),"From: ".FROM."\r\n"
 							."Reply-To: ".FROM."\r\n"
 							."X-Mailer: PHP/" . phpversion());
-            echo("Votre adresse email a été validée. Votre compte doit maintenant être vérifié par un administrateur. Vous recevrez un email lorsque ce sera fait. Merci de votre patience.<br>");
+            echo("Votre adresse email a Ã©tÃ© validÃ©e. Votre compte doit maintenant Ãªtre vÃ©rifiÃ© par un administrateur. Vous recevrez un email lorsque ce sera fait. Merci de votre patience.<br>");
         }
         mysql_close();
         die();
@@ -220,7 +220,7 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r
 
       $ps=exec_requete("select idcitoyen from citoyen where idcitoyen like '".$pseudo."'");
       if(mysql_num_rows($ps)>0)
-        echo("Ce pseudo est déjà utilisé, merci d'en choisir un autre<br>");
+        echo("Ce pseudo est dÃ©jÃ  utilisÃ©, merci d'en choisir un autre<br>");
       else
       {
 
@@ -230,17 +230,17 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r
 
         if($res)
         {
-          mail($_POST["mail"], "Validation de votre inscription sur Monnaie M", "Votre adresse mail a été utilisée pour l'inscription sur le site Monnaie M.\nPour confirmer votre inscription, merci de cliquer sur ce lien :\n http://merome.net/monnaiem/compte.php?valide=".md5($_POST["pseudo"])."\n\n
-Ce faisant, vous avez conscience de participer à une expérimentation qui peut s'arrêter à tout moment, et pendant laquelle vous êtes entièrement responsable de vos actes.\n
-Par ailleurs, vous vous engagez à ne pas utiliser le site pour autre chose que ce pour quoi il est prévu : l'échange de biens et de services à caractère non professionnel.\n\n
-Vous recevrez un mail lorsque votre compte sera validé de manière définitive.\n\n
-Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r\n"
+          mail($_POST["mail"], "Validation de votre inscription sur Monnaie M", "Votre adresse mail a Ã©tÃ© utilisÃ©e pour l'inscription sur le site Monnaie M.\nPour confirmer votre inscription, merci de cliquer sur ce lien :\n http://merome.net/monnaiem/compte.php?valide=".md5($_POST["pseudo"])."\n\n
+Ce faisant, vous avez conscience de participer Ã  une expÃ©rimentation qui peut s'arrÃªter Ã  tout moment, et pendant laquelle vous Ãªtes entiÃ¨rement responsable de vos actes.\n
+Par ailleurs, vous vous engagez Ã  ne pas utiliser le site pour autre chose que ce pour quoi il est prÃ©vu : l'Ã©change de biens et de services Ã  caractÃ¨re non professionnel.\n\n
+Vous recevrez un mail lorsque votre compte sera validÃ© de maniÃ¨re dÃ©finitive.\n\n
+Merci de votre intÃ©rÃªt pour cette expÃ©rimentation.\n\nMerome.","From: ".FROM."\r\n"
 							."Reply-To: ".FROM."\r\n"
 							."X-Mailer: PHP/" . phpversion());
-          die("Votre inscription a été prise en compte, après vérification de votre mail, elle sera examinée par un administrateur pour validation définitive.");
+          die("Votre inscription a Ã©tÃ© prise en compte, aprÃ¨s vÃ©rification de votre mail, elle sera examinÃ©e par un administrateur pour validation dÃ©finitive.");
         }
         else
-          echo("Une erreur s'est produite à la validation du formulaire. Un mail a été envoyé à l'administrateur pour régler le problème. Ressayez dans quelques heures.");
+          echo("Une erreur s'est produite Ã  la validation du formulaire. Un mail a Ã©tÃ© envoyÃ© Ã  l'administrateur pour rÃ©gler le problÃ¨me. Ressayez dans quelques heures.");
 
         die();
        }
@@ -256,24 +256,24 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r
       
       <form method="post" action="compte.php">
         <table align="center">
-          <tr><td colspan="2" align="center"><b>Formulaire d'inscription</b><br><br><small><i>Ce site a fait l'objet d'une déclaration à la CNIL, sous le n°1670381
- le 02/05/2013<br>Pour tout accès, modification ou suppression de vos données personnelles, merci de prendre contact avec l'administrateur à l'adresse : simplecommebonjour@merome.net</i></small><br>&nbsp;</td></tr>
+          <tr><td colspan="2" align="center"><b>Formulaire d'inscription</b><br><br><small><i>Ce site a fait l'objet d'une dÃ©claration Ã  la CNIL, sous le nÂ°1670381
+ le 02/05/2013<br>Pour tout accÃ¨s, modification ou suppression de vos donnÃ©es personnelles, merci de prendre contact avec l'administrateur Ã  l'adresse : simplecommebonjour@merome.net</i></small><br>&nbsp;</td></tr>
           <tr><td align="right">Choisissez un pseudo </td><td><input type="text" name="pseudo"></td></tr>
           <tr><td align="right">Mot de passe</td><td><input type="password" name="pass1"></td></tr>
           <tr><td align="right">Confirmation du mot de passe</td><td><input type="password" name="pass2"></td></tr>
           <tr><td align="right">Nom</td><td><input type="text" name="nom"></td></tr>
-          <tr><td align="right">Prénom</td><td><input type="text" name="prenom"></td></tr>
-          <tr><td colspan="2"><br><b>Cette adresse exclusivement sera utilisée pour l'envoi de vos achats et permettra la validation de votre compte :</b></td></tr>
+          <tr><td align="right">PrÃ©nom</td><td><input type="text" name="prenom"></td></tr>
+          <tr><td colspan="2"><br><b>Cette adresse exclusivement sera utilisÃ©e pour l'envoi de vos achats et permettra la validation de votre compte :</b></td></tr>
           <tr><td align="right">Adresse</td><td><input type="text" name="adresse"></td></tr>
           <tr><td align="right">Code postal</td><td><input type="text" name="cp"></td></tr>
           <tr><td align="right">Ville</td><td><input type="text" name="ville"></td></tr>
-          <tr><td colspan="2"><br><b>Le n° de téléphone fixe permet uniquement de valider l'adresse (éviter les multi-comptes) et ne sera pas utilisé ni visible par les autres utilisateurs du site :</b><br><small>Si vous n'avez pas de téléphone fixe, ou si votre adresse ne peut être vérifiée dans les pages blanches, un justificatif de domicile vous sera demandé.</small></td></tr>
-          <tr><td align="right">Téléphone fixe</td><td><input type="text" name="tel"></td></tr>
-          <tr><td colspan="2"><br><b>Un mail de confirmation vous sera envoyé à cette adresse :</b></td></tr>
+          <tr><td colspan="2"><br><b>Le nÂ° de tÃ©lÃ©phone fixe permet uniquement de valider l'adresse (Ã©viter les multi-comptes) et ne sera pas utilisÃ© ni visible par les autres utilisateurs du site :</b><br><small>Si vous n'avez pas de tÃ©lÃ©phone fixe, ou si votre adresse ne peut Ãªtre vÃ©rifiÃ©e dans les pages blanches, un justificatif de domicile vous sera demandÃ©.</small></td></tr>
+          <tr><td align="right">TÃ©lÃ©phone fixe</td><td><input type="text" name="tel"></td></tr>
+          <tr><td colspan="2"><br><b>Un mail de confirmation vous sera envoyÃ© Ã  cette adresse :</b></td></tr>
           <tr><td align="right">Adresse mail</td><td><input type="text" name="mail"></td></tr>
-          <tr><td colspan="2"><input type="checkbox" name="valide1">J'ai conscience de participer à une expérimentation qui peut s'arrêter à tout moment, et pendant laquelle je suis entièrement responsable de mes actes.</td></tr>
-          <tr><td colspan="2"><input type="checkbox" name="valide2">Je m'engage à ne pas utiliser le site pour autre chose que ce pour quoi il est prévu : l'échange de biens et de services à caractère non professionnel.</td></tr>
-          <tr><td colspan="2" align="center">En validant ce formulaire, j'accepte sans réserve <a href="http://merome.net/monnaiem/ReglementMonnaieM.pdf">le règlement de monnaie M.</a></td></tr>
+          <tr><td colspan="2"><input type="checkbox" name="valide1">J'ai conscience de participer Ã  une expÃ©rimentation qui peut s'arrÃªter Ã  tout moment, et pendant laquelle je suis entiÃ¨rement responsable de mes actes.</td></tr>
+          <tr><td colspan="2"><input type="checkbox" name="valide2">Je m'engage Ã  ne pas utiliser le site pour autre chose que ce pour quoi il est prÃ©vu : l'Ã©change de biens et de services Ã  caractÃ¨re non professionnel.</td></tr>
+          <tr><td colspan="2" align="center">En validant ce formulaire, j'accepte sans rÃ©serve <a href="http://merome.net/monnaiem/ReglementMonnaieM.pdf">le rÃ¨glement de monnaie M.</a></td></tr>
           <tr><td colspan="2" align="center"><input type="submit" value="Je m'inscris"></td></tr>
         </table>
       </form>

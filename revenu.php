@@ -3,7 +3,7 @@
  +-------------------------------------------------------------------------+
  | Monnaie M - http://merome.net/monnaiem                                                              |
  +-------------------------------------------------------------------------+
- | Auteur : Jérôme VUITTENEZ - Merome : postmaster@merome.net              |
+ | Auteur : JÃ©rÃ´me VUITTENEZ - Merome : postmaster@merome.net              |
  +-------------------------------------------------------------------------+
 */
 
@@ -14,11 +14,11 @@
 <html>
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Monnaie M - Expérimentation d'une monnaie complémentaire assortie d'un revenu de base</title>
+  <title>Monnaie M - ExpÃ©rimentation d'une monnaie complÃ©mentaire assortie d'un revenu de base</title>
   <link rel="stylesheet" href="monnaiem.css" typeproduit="text/css">
-  <meta name="description" content="Monnaie M est une expérimentation visant à faire connaître et promouvoir le fonctionnement et le rôle d'une monnaie, 
-  les Systèmes d'Echanges Locaux, le concept de revenu de base, les monnaies complémentaires.">
-  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc création monétaire SEL revenu de base dividende universel">
+  <meta name="description" content="Monnaie M est une expÃ©rimentation visant Ã  faire connaÃ®tre et promouvoir le fonctionnement et le rÃ´le d'une monnaie, 
+  les SystÃ¨mes d'Echanges Locaux, le concept de revenu de base, les monnaies complÃ©mentaires.">
+  <meta name="keywords" lang="fr" content="monnaie bitcoin openudc crÃ©ation monÃ©taire SEL revenu de base dividende universel">
   </head>
   <body>
 <?php 
@@ -26,7 +26,7 @@
   if(date("d")==1)
   {
     $massem1=mysql_fetch_array(exec_requete("select sum(solde) as massem1 from citoyen where valide=1"));
-    $massem2=mysql_fetch_array(exec_requete("select sum(prix) as massem2 from transaction where statut<>'Terminé' and statut<>'Proposé' and statut<>'Annulé'"));
+    $massem2=mysql_fetch_array(exec_requete("select sum(prix) as massem2 from transaction where statut<>'TerminÃ©' and statut<>'ProposÃ©' and statut<>'AnnulÃ©'"));
     $populations=mysql_fetch_array(exec_requete("select count(*) as population from citoyen where valide=1"));
 
     $revenu=ceil((0.8*($massem1["massem1"]+$massem2["massem2"])/100/$populations["population"]));
@@ -35,8 +35,8 @@
     $citoyens=exec_requete("select idcitoyen,mail,solde from citoyen where valide=1");
     while($citoyen=mysql_fetch_array($citoyens))
     {
-      mail($citoyen["mail"], "Vous avez reçu votre revenu de base sur Monnaie M",
-                  "Conformément au réglement de Monnaie M ( http://merome.net/monnaiem/ReglementMonnaieM.pdf ), votre compte vient d'être crédité de ".$revenu." M au titre du revenu de base mensuel, soit 0.8% de la masse monétaire totale (".($massem1["massem1"]+$massem2["massem2"]).") divisée par le nombre d'utilisateurs inscrits (".$populations["population"]."), arrondi à l'entier supérieur.\r\n\r\n Votre solde s'élève aujourd'hui à ".$citoyen["solde"]." M.\r\n\r\nMonnaie M est une initiative citoyenne qui fonctionne à la mesure de l'investissement de ses utilisateurs :\r\n- En utilisant vos M pour acheter des biens et des services aux autres utilisateurs\r\n- En déposant vous-même des annonces (on a tous quelque chose à offrir)\r\n- En faisant connaitre le site à d'autres\r\n\r\nJe compte sur vous...\r\n\r\nhttp://merome.net/monnaiem\r\n\r\nMerome",
+      mail($citoyen["mail"], "Vous avez reÃ§u votre revenu de base sur Monnaie M",
+                  "ConformÃ©ment au rÃ©glement de Monnaie M ( http://merome.net/monnaiem/ReglementMonnaieM.pdf ), votre compte vient d'Ãªtre crÃ©ditÃ© de ".$revenu." M au titre du revenu de base mensuel, soit 0.8% de la masse monÃ©taire totale (".($massem1["massem1"]+$massem2["massem2"]).") divisÃ©e par le nombre d'utilisateurs inscrits (".$populations["population"]."), arrondi Ã  l'entier supÃ©rieur.\r\n\r\n Votre solde s'Ã©lÃ¨ve aujourd'hui Ã  ".$citoyen["solde"]." M.\r\n\r\nMonnaie M est une initiative citoyenne qui fonctionne Ã  la mesure de l'investissement de ses utilisateurs :\r\n- En utilisant vos M pour acheter des biens et des services aux autres utilisateurs\r\n- En dÃ©posant vous-mÃªme des annonces (on a tous quelque chose Ã  offrir)\r\n- En faisant connaitre le site Ã  d'autres\r\n\r\nJe compte sur vous...\r\n\r\nhttp://merome.net/monnaiem\r\n\r\nMerome",
                   "From: ".FROM."\r\n"
         					."Reply-To: ".FROM."\r\n"
         					."X-Mailer: PHP/" . phpversion());

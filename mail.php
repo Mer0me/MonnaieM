@@ -11,10 +11,10 @@
 
   if($_GET["id"]!="")
   {
-    $verif=exec_requete("select * from citoyen where md5(concat(idcitoyen,nom))='".$_GET["id"]."'");
-    if(mysql_num_rows($verif)==1)
+    $verif=exec_requete("select * from citoyen where md5(concat(idcitoyen,nom))='".$_GET["id"]."'", $conn);
+    if(mysqli_num_rows($verif)==1)
     {
-      $_SESSION["citoyen"]=mysql_fetch_array($verif);
+      $_SESSION["citoyen"]=mysqli_fetch_array($verif);
     }
     else
       echo("<center><b>Nom d'utilisateur ou mot de passe incorrect</b></center>");
@@ -44,10 +44,10 @@
 
     if($_POST["cmail"]!="")
     {
-      $citoyens=exec_requete("select mail,md5(concat(idcitoyen,nom)) as code from citoyen where idcitoyen='".$_POST["cmail"]."'");
-      if(mysql_num_rows($citoyens)==1)
+      $citoyens=exec_requete("select mail,md5(concat(idcitoyen,nom)) as code from citoyen where idcitoyen='".$_POST["cmail"]."'", $conn);
+      if(mysqli_num_rows($citoyens)==1)
       {
-          $citoyen1=mysql_fetch_array($citoyens);
+          $citoyen1=mysqli_fetch_array($citoyens);
           if(mail($citoyen1["mail"], "Message de la part de ".$_SESSION["citoyen"]["idcitoyen"]." depuis monnaie M",
                   "Ce message a été envoyé par ".$_SESSION["citoyen"]["idcitoyen"]." depuis le site Monnaie M. Merci de ne pas utiliser le bouton 'Répondre' de votre messagerie, mais ce lien : http://merome.net/monnaiem/mail.php?id=".$citoyen1["code"]."&c=".urlencode($_SESSION["citoyen"]["idcitoyen"])." pour lui faire une réponse.\r\n\r\n".stripslashes($_POST["contenu"])."\r\n".
                   "\r\nPour répondre à ce message, cliquez ici : http://merome.net/monnaiem/mail.php?id=".$citoyen1["code"]."&c=".urlencode($_SESSION["citoyen"]["idcitoyen"])."\r\n",
@@ -63,11 +63,11 @@
 
     if($_GET["c"]!="")
     {
-      $transactions=exec_requete("select * from citoyen,transaction,produit where vendeur=citoyen.idcitoyen and produit.idproduit=transaction.idproduit and statut='Terminé' and citoyen.idcitoyen='".$_GET["c"]."' order by datevente");
-      if(mysql_num_rows($transactions)>0)
+      $transactions=exec_requete("select * from citoyen,transaction,produit where vendeur=citoyen.idcitoyen and produit.idproduit=transaction.idproduit and statut='Terminé' and citoyen.idcitoyen='".$_GET["c"]."' order by datevente", $conn);
+      if(mysqli_num_rows($transactions)>0)
       {
         echo("<b>Les dernières transactions de ".$_GET["c"]." :</b><br><br><table border=\"1\" align=\"center\"><tr><td>Date de la transaction</td><td>Catégorie de produit</td><td>Note</td><td>Commentaires de l'acheteur</td></tr>");
-        while ($transaction=mysql_fetch_array($transactions))
+        while ($transaction=mysqli_fetch_array($transactions))
         {
           echo("<tr><td>".$transaction["datevente"]."</td><td>".$transaction["categorie"]."</td><td>".$transaction["note"]."/5</td><td>".$transaction["commentaires"]."</td></tr>");
         }
@@ -86,7 +86,7 @@
 
 
 
-  mysql_close();
+  mysqli_close();
 
 
 

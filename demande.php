@@ -39,10 +39,10 @@
     if($_POST["achatannonce"]>0)
     {
 
-      $annonces=exec_requete("select * from produit,citoyen where produit.idcitoyen=citoyen.idcitoyen and idproduit=".$_POST["achatannonce"]);
-      if(mysql_num_rows($annonces)>0)
+      $annonces=exec_requete("select * from produit,citoyen where produit.idcitoyen=citoyen.idcitoyen and idproduit=".$_POST["achatannonce"], $conn);
+      if(mysqli_num_rows($annonces)>0)
       {
-        $annonce=mysql_fetch_array($annonces);
+        $annonce=mysqli_fetch_array($annonces);
         if($_POST["port"]==1)
         {
           $livraison=" (livraison comprise)";
@@ -70,10 +70,10 @@
 
     if($_POST["achatconfirme"]>0)
     {
-        $annonces=exec_requete("select * from produit,citoyen where produit.idcitoyen=citoyen.idcitoyen and idproduit=".$_POST["achatconfirme"]);
-        if(mysql_num_rows($annonces)>0)
+        $annonces=exec_requete("select * from produit,citoyen where produit.idcitoyen=citoyen.idcitoyen and idproduit=".$_POST["achatconfirme"], $conn);
+        if(mysqli_num_rows($annonces)>0)
         {
-          $annonce=mysql_fetch_array($annonces);
+          $annonce=mysqli_fetch_array($annonces);
 
           if($_POST["port"]==1)
           {
@@ -117,10 +117,10 @@
 
     if($_GET["a"]>0)
     {
-        $annonces=exec_requete("select * from produit,citoyen where produit.idcitoyen=citoyen.idcitoyen and idproduit=".$_GET["a"]);
-        if(mysql_num_rows($annonces)>0)
+        $annonces=exec_requete("select * from produit,citoyen where produit.idcitoyen=citoyen.idcitoyen and idproduit=".$_GET["a"], $conn);
+        if(mysqli_num_rows($annonces)>0)
         {
-          $annonce=mysql_fetch_array($annonces);
+          $annonce=mysqli_fetch_array($annonces);
           if($annonce["idcitoyen"]==$_SESSION["citoyen"]["idcitoyen"])
           {
             $_GET["modif"]=$_GET["a"];
@@ -209,10 +209,10 @@
       }
       if($_POST["annoncemodif"]>0)
       {
-        $annonces=exec_requete("select * from produit where idproduit=".$_POST["annoncemodif"]);
-        if(mysql_num_rows($annonces)>0)
+        $annonces=exec_requete("select * from produit where idproduit=".$_POST["annoncemodif"], $conn);
+        if(mysqli_num_rows($annonces)>0)
         {
-          $annonce=mysql_fetch_array($annonces);
+          $annonce=mysqli_fetch_array($annonces);
           if($annonce["idcitoyen"]==$_SESSION["citoyen"]["idcitoyen"])
           {
             if($fichier_name=="")
@@ -246,25 +246,25 @@
    if($_GET["modif"]>0 || $_GET["suppr"]>0)
    {
     if($_GET["modif"]>0)
-      $annonces=exec_requete("select * from produit where idproduit=".$_GET["modif"]);
+      $annonces=exec_requete("select * from produit where idproduit=".$_GET["modif"], $conn);
     else
-      $annonces=exec_requete("select * from produit where idproduit=".$_GET["suppr"]);
-    if(mysql_num_rows($annonces)>0)
+      $annonces=exec_requete("select * from produit where idproduit=".$_GET["suppr"], $conn);
+    if(mysqli_num_rows($annonces)>0)
     {
-      $annonce=mysql_fetch_array($annonces);
+      $annonce=mysqli_fetch_array($annonces);
       if($annonce["idcitoyen"]==$_SESSION["citoyen"]["idcitoyen"])
       {
         if($_GET["suppr"]==$annonce["idproduit"])
         {
-           $mesannonces=exec_requete("select * from produit where nbex>0 and valide>0 and idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."' and idproduit<>".$_GET["suppr"]);
-           if(mysql_num_rows($mesannonces)==0)
+           $mesannonces=exec_requete("select * from produit where nbex>0 and valide>0 and idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."' and idproduit<>".$_GET["suppr"], $conn);
+           if(mysqli_num_rows($mesannonces)==0)
            {
-              $mestransactions=exec_requete("select * from transaction where acheteur='".$_SESSION["citoyen"]["idcitoyen"]."' and statut<>'Terminé' and statut<>'Annulé'");
-              if(mysql_num_rows($mestransactions)>0)
+              $mestransactions=exec_requete("select * from transaction where acheteur='".$_SESSION["citoyen"]["idcitoyen"]."' and statut<>'Terminé' and statut<>'Annulé'", $conn);
+              if(mysqli_num_rows($mestransactions)>0)
                 die("Vous ne pouvez pas supprimer cette annonce car vous avez une transaction en cours.");
            }
            else
-              exec_requete("delete from produit where idproduit=".$annonce["idproduit"]);
+              exec_requete("delete from produit where idproduit=".$annonce["idproduit"], $conn);
 		die("Annonce supprimée");
         }
         if($_GET["modif"]==$annonce["idproduit"])
@@ -362,7 +362,7 @@
 
 
 
-  mysql_close();
+  mysqli_close();
 
 
 

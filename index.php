@@ -35,29 +35,29 @@
   {
 
 
-    $verif=exec_requete("select * from citoyen where valide=1 and idcitoyen='".$_POST["id"]."' and md5('".$_POST["pass"]."')=mdp");
-    if(mysql_num_rows($verif)==1)
+    $verif=exec_requete("select * from citoyen where valide=1 and idcitoyen='".$_POST["id"]."' and md5('".$_POST["pass"]."')=mdp", $conn);
+    if(mysqli_num_rows($verif)==1)
     {
-      $_SESSION["citoyen"]=mysql_fetch_array($verif);
-      exec_requete("update citoyen set derniereconnexion=now() where idcitoyen='".$_POST["id"]."'");
+      $_SESSION["citoyen"]=mysqli_fetch_array($verif);
+      exec_requete("update citoyen set derniereconnexion=now() where idcitoyen='".$_POST["id"]."'", $conn);
 
-      $transactions=exec_requete("select * from transaction where statut='confirmé' and to_days( now( ) ) - to_days( datevente ) >30");
-      while($transaction=mysql_fetch_array($transactions))
+      $transactions=exec_requete("select * from transaction where statut='confirmé' and to_days( now( ) ) - to_days( datevente ) >30", $conn);
+      while($transaction=mysqli_fetch_array($transactions))
       {
-        exec_requete("update transaction set statut='Terminé',note=5,commentaires='(Annonce validée automatiquement après 30 jours)' where idtransaction=".$transaction["idtransaction"]);
-        $moyennes=exec_requete("select avg(note) as moy from transaction where vendeur='".$transaction["vendeur"]."' and statut='Terminé'");
-        $moyenne=mysql_fetch_array($moyennes);
-        exec_requete("update citoyen set solde=solde+".$transaction["prix"].",nbventes=nbventes+1,notevendeur=".$moyenne["moy"]." where idcitoyen='".$transaction["vendeur"]."'");
-        $moyennes=exec_requete("select avg(note) as moy from transaction where acheteur='".$transaction["acheteur"]."'");
-        $moyenne=mysql_fetch_array($moyennes);
-        exec_requete("update citoyen set noteacheteur=".$moyenne["moy"]." where idcitoyen='".$transaction["acheteur"]."'");
+        exec_requete("update transaction set statut='Terminé',note=5,commentaires='(Annonce validée automatiquement après 30 jours)' where idtransaction=".$transaction["idtransaction"], $conn);
+        $moyennes=exec_requete("select avg(note) as moy from transaction where vendeur='".$transaction["vendeur"]."' and statut='Terminé'", $conn);
+        $moyenne=mysqli_fetch_array($moyennes);
+        exec_requete("update citoyen set solde=solde+".$transaction["prix"].",nbventes=nbventes+1,notevendeur=".$moyenne["moy"]." where idcitoyen='".$transaction["vendeur"]."'", $conn);
+        $moyennes=exec_requete("select avg(note) as moy from transaction where acheteur='".$transaction["acheteur"]."'", $conn);
+        $moyenne=mysqli_fetch_array($moyennes);
+        exec_requete("update citoyen set noteacheteur=".$moyenne["moy"]." where idcitoyen='".$transaction["acheteur"]."'", $conn);
       }
 
-      $transactions=exec_requete("select * from transaction where statut='Commandé' and to_days( now( ) ) - to_days( datevente ) >30");
-      while($transaction=mysql_fetch_array($transactions))
+      $transactions=exec_requete("select * from transaction where statut='Commandé' and to_days( now( ) ) - to_days( datevente ) >30", $conn);
+      while($transaction=mysqli_fetch_array($transactions))
       {
-        exec_requete("update transaction set statut='Annulé',note=5,commentaires='(Annonce annulée automatiquement après 30 jours)' where idtransaction=".$transaction["idtransaction"]);
-        exec_requete("update citoyen set solde=solde+".$transaction["prix"]." where idcitoyen='".$transaction["acheteur"]."'");
+        exec_requete("update transaction set statut='Annulé',note=5,commentaires='(Annonce annulée automatiquement après 30 jours)' where idtransaction=".$transaction["idtransaction"], $conn);
+        exec_requete("update citoyen set solde=solde+".$transaction["prix"]." where idcitoyen='".$transaction["acheteur"]."'", $conn);
       }
     }
     else
@@ -99,8 +99,8 @@
     <a href=\"http://merome.net/monnaiem/ReglementMonnaieM.pdf\">Voir le règlement de Monnaie M</a><br><br>");
 
     echo("<hr><b>Un aperçu des annonces déjà en ligne avec une annonce au hasard<br><table align=\"center\">");
-    $annoncehasards=exec_requete("select * from produit,citoyen where produit.valide=1 and nbex>0 and (dateexpiration=0 or dateexpiration>now()) and citoyen.idcitoyen=produit.idcitoyen and citoyen.idcitoyen<>'".$_SESSION["citoyen"]["idcitoyen"]."' order by rand()");
-    $annoncehasard=mysql_fetch_array($annoncehasards);
+    $annoncehasards=exec_requete("select * from produit,citoyen where produit.valide=1 and nbex>0 and (dateexpiration=0 or dateexpiration>now()) and citoyen.idcitoyen=produit.idcitoyen and citoyen.idcitoyen<>'".$_SESSION["citoyen"]["idcitoyen"]."' order by rand()", $conn);
+    $annoncehasard=mysqli_fetch_array($annoncehasards);
     affiche_annonce($annoncehasard);
     echo("</table></div>");
   }
@@ -108,10 +108,10 @@
   {
     echo("<div id=\"accueil\"><img src=\"images/bandeau.png\"><br><br>");
 
-    $verif=exec_requete("select * from citoyen where idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."'");
-    if(mysql_num_rows($verif)==1)
+    $verif=exec_requete("select * from citoyen where idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."'", $conn);
+    if(mysqli_num_rows($verif)==1)
     {
-      $_SESSION["citoyen"]=mysql_fetch_array($verif);
+      $_SESSION["citoyen"]=mysqli_fetch_array($verif);
     }
     else
       die("erreur");
@@ -120,29 +120,29 @@
 
     mesannonces();
 
-    $cats=exec_requete("select distinct(categorie) from produit where produit.valide=1 and nbex>0");
-    while($cat=mysql_fetch_array($cats))
+    $cats=exec_requete("select distinct(categorie) from produit where produit.valide=1 and nbex>0", $conn);
+    while($cat=mysqli_fetch_array($cats))
     {
       $listecat.="<option value=\"".$cat["categorie"]."\">".$cat["categorie"]."</option>";
     }
 
     echo("<small><a href=\"rechercher.php?criteres=dep\">Les annonces dans votre département</a><form method=\"post\" action=\"rechercher.php\"><select name=\"criteres\">".$listecat."</select>&nbsp;<input type=\"submit\" value=\"Voir les produits de cette catégorie\"></form><br></small>");
 
-    $lesannonces=exec_requete("select * from produit,citoyen where produit.valide=1 and nbex>0 and (dateexpiration=0 or dateexpiration>now()) and citoyen.idcitoyen=produit.idcitoyen and citoyen.idcitoyen<>'".$_SESSION["citoyen"]["idcitoyen"]."' order by datesaisie desc");
-    if(mysql_num_rows($lesannonces)>0)
+    $lesannonces=exec_requete("select * from produit,citoyen where produit.valide=1 and nbex>0 and (dateexpiration=0 or dateexpiration>now()) and citoyen.idcitoyen=produit.idcitoyen and citoyen.idcitoyen<>'".$_SESSION["citoyen"]["idcitoyen"]."' order by datesaisie desc", $conn);
+    if(mysqli_num_rows($lesannonces)>0)
     {
 
         echo("<form method=\"post\" action=\"rechercher.php\"><input type=\"text\" name=\"criteres\"><input type=\"submit\" value=\"Rechercher\"></form><br>");
         echo("<b>Une annonce au hasard<br><table align=\"center\">");
-        $annoncehasards=exec_requete("select * from produit,citoyen where produit.valide=1 and nbex>0 and (dateexpiration=0 or dateexpiration>now()) and citoyen.idcitoyen=produit.idcitoyen and citoyen.idcitoyen<>'".$_SESSION["citoyen"]["idcitoyen"]."' order by rand()");
-        $annoncehasard=mysql_fetch_array($annoncehasards);
+        $annoncehasards=exec_requete("select * from produit,citoyen where produit.valide=1 and nbex>0 and (dateexpiration=0 or dateexpiration>now()) and citoyen.idcitoyen=produit.idcitoyen and citoyen.idcitoyen<>'".$_SESSION["citoyen"]["idcitoyen"]."' order by rand()", $conn);
+        $annoncehasard=mysqli_fetch_array($annoncehasards);
         affiche_annonce($annoncehasard);
 
 
-        echo("<tr><td colspan=\"3\" align=\"center\"><b><big>Les dernières annonces saisies (".mysql_num_rows($lesannonces).") :</big></b><br><small><i>Vos annonces n'apparaissent pas dans cette liste</i></small></td></tr>");
+        echo("<tr><td colspan=\"3\" align=\"center\"><b><big>Les dernières annonces saisies (".mysqli_num_rows($lesannonces).") :</big></b><br><small><i>Vos annonces n'apparaissent pas dans cette liste</i></small></td></tr>");
 
         $i=0;
-        while(($annonce=mysql_fetch_array($lesannonces)) && $i<(10+$debut))
+        while(($annonce=mysqli_fetch_array($lesannonces)) && $i<(10+$debut))
         {
           if($annonce["idproduit"]!=$annoncehasard["idproduit"])
           {
@@ -154,7 +154,7 @@
           }
         }
         echo("</table></p>");
-        if(mysql_num_rows($lesannonces)>$i)
+        if(mysqli_num_rows($lesannonces)>$i)
         {
           echo("<a href=\"index.php?debut=".$i."\">Voir les annonces suivantes</a>");
         }
@@ -168,7 +168,7 @@
   }
 
 
-  mysql_close();
+  mysqli_close();
 
 
 

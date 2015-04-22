@@ -11,16 +11,16 @@ include './config.php';
 if(USER=="")
   die("Merci de compléter le fichier config.php avec les identifiants nécessaires à la connexion à la base de données");
 
-$cree_mysqlid=mysql_connect(HOST, USER, PWD) or die("Problème de connexion à la base, merci de ressayer plus tard.");
-mysql_select_db(DB) or die("Problème de connexion à la base, merci de ressayer plus tard.");
+$conn=mysqli_connect(HOST, USER, PWD, DB) or die("Problème de connexion à la base, merci de ressayer plus tard.");
+//mysqli_select_db(DB) or die("Problème de connexion à la base, merci de ressayer plus tard.");
 
-function exec_requete($phrase,$debug=0)
+function exec_requete($phrase,$mysql_conn,$debug=0)
 {
     if($debug==1)
        echo($phrase."<br>");
     
-    $exec_requete_resultat=@mysql_query($phrase);
-    if($exec_requete_resultat>0)
+    $exec_requete_resultat=@mysqli_query($mysql_conn, $phrase);
+    if(is_numeric($exec_requete_resultat->num_rows) || $exec_requete_resultat === true)
       return($exec_requete_resultat);
     else
     {

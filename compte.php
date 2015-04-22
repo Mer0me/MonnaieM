@@ -29,12 +29,12 @@
       {
           include './requete.php';
 
-          $req_compte=exec_requete("select * from citoyen where idcitoyen like '".$_POST["pseudo"]."' and activation=".$_POST["code"]);
-          if(mysql_num_rows($req_compte)==1)
+          $req_compte=exec_requete("select * from citoyen where idcitoyen like '".$_POST["pseudo"]."' and activation=".$_POST["code"], $conn);
+          if(mysqli_num_rows($req_compte)==1)
           {
-            exec_requete("update citoyen set valide=1,solde=50,notevendeur=5,activation=0 where idcitoyen like '".$_POST["pseudo"]."' and activation=".$_POST["code"]);
-            $req_mail=exec_requete("select mail from citoyen where idcitoyen like '".$_POST["pseudo"]."'");
-            $mail=mysql_fetch_array($req_mail);
+            exec_requete("update citoyen set valide=1,solde=50,notevendeur=5,activation=0 where idcitoyen like '".$_POST["pseudo"]."' and activation=".$_POST["code"], $conn);
+            $req_mail=exec_requete("select mail from citoyen where idcitoyen like '".$_POST["pseudo"]."'", $conn);
+            $mail=mysqli_fetch_array($req_mail);
 
             mail($mail["mail"], "Validation de votre compte sur Monnaie M", "Félicitations, votre compte est maintenant entièrement validé. Vous pouvez commencer à utiliser l'espace d'échange Monnaie M.\nhttp://merome.net/monnaiem\n\n
     Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r\n"
@@ -61,10 +61,10 @@
     {
       include './requete.php';
 
-      $req_compte=exec_requete("select * from citoyen where md5(concat(idcitoyen,mail)) like '".$_POST["c2"]."' and valide=1");
-      if(mysql_num_rows($req_compte)==1)
+      $req_compte=exec_requete("select * from citoyen where md5(concat(idcitoyen,mail)) like '".$_POST["c2"]."' and valide=1", $conn);
+      if(mysqli_num_rows($req_compte)==1)
       {
-        $compte=mysql_fetch_array($req_compte);
+        $compte=mysqli_fetch_array($req_compte);
 
         if($_POST["pass1"]!=$_POST["pass2"])
         {
@@ -78,7 +78,7 @@
         else
         {
           echo("Identifiant de votre compte (à retenir !) : ".$compte["idcitoyen"]."<br>");
-          exec_requete("update citoyen set mdp=md5('".$_POST["pass1"]."') where md5(concat(idcitoyen,mail)) like '".$_POST["c2"]."' and valide=1");
+          exec_requete("update citoyen set mdp=md5('".$_POST["pass1"]."') where md5(concat(idcitoyen,mail)) like '".$_POST["c2"]."' and valide=1", $conn);
           die("Votre mot de passe a été modifié, vous pouvez maintenant essayer <a href=\"index.php\">de vous connecter avec votre nouveau mot de passe</a>");
         }
       }
@@ -90,10 +90,10 @@
     {
       include './requete.php';
 
-      $req_compte=exec_requete("select * from citoyen where md5(concat(idcitoyen,mail)) like '".$_GET["c"]."' and valide=1");
-      if(mysql_num_rows($req_compte)==1)
+      $req_compte=exec_requete("select * from citoyen where md5(concat(idcitoyen,mail)) like '".$_GET["c"]."' and valide=1", $conn);
+      if(mysqli_num_rows($req_compte)==1)
       {
-        $compte=mysql_fetch_array($req_compte);
+        $compte=mysqli_fetch_array($req_compte);
         die("Identifiant de votre compte (à retenir !) : ".$compte["idcitoyen"]."<br><form method=\"post\" action=\"compte.php\">
             Choisissez votre nouveau mot de passe : <input type=\"password\" name=\"pass1\"><br>
             Saisissez à nouveau votre nouveau mot de passe pour vérification :<input type=\"password\" name=\"pass2\"><br>
@@ -108,10 +108,10 @@
     {
       include './requete.php';
 
-      $req_mail=exec_requete("select * from citoyen where mail like '".$_POST["oublimail"]."' and valide=1");
-      if(mysql_num_rows($req_mail)==1)
+      $req_mail=exec_requete("select * from citoyen where mail like '".$_POST["oublimail"]."' and valide=1", $conn);
+      if(mysqli_num_rows($req_mail)==1)
       {
-        $compte=mysql_fetch_array($req_mail);
+        $compte=mysqli_fetch_array($req_mail);
         mail($compte["mail"], "Réinitialisation du mot de passe", "Une demande de réinitialisation du mot de passe de votre compte Monnaie M vient d'être effectuée avec votre adresse mail.\nSi vous n'en êtes pas à l'origine, ne tenez pas compte de ce message.\n\nCliquez ici pour réinitialiser votre mot de passe : http://merome.net/monnaiem/compte.php?c=".md5($compte["idcitoyen"].$compte["mail"])."\n\n
         Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r\n"
 							."Reply-To: ".FROM."\r\n"
@@ -131,14 +131,14 @@
     if($_POST["refuse"]!="")
     {
       include './requete.php';
-        $req_mail=exec_requete("select mail from citoyen where idcitoyen='".$_POST["refuse"]."'");
-        $mail=mysql_fetch_array($req_mail);
+        $req_mail=exec_requete("select mail from citoyen where idcitoyen='".$_POST["refuse"]."'", $conn);
+        $mail=mysqli_fetch_array($req_mail);
         mail($mail["mail"], "Refus de votre compte sur Monnaie M", "Votre compte sur Monnaie M n'a pas été accepté pour la raison suivante :\n".$_POST["raison"]."\n\nVous pouvez essayer de vous réinscrire en tenant compte de cette remarque.\n\nhttp://merome.net/monnaiem/compte.php\n\n
 Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r\n"
 							."Reply-To: ".FROM."\r\n"
 							."X-Mailer: PHP/" . phpversion());
-         exec_requete("delete from citoyen where idcitoyen='".$_POST["refuse"]."'");
-         mysql_close();
+         exec_requete("delete from citoyen where idcitoyen='".$_POST["refuse"]."'", $conn);
+         mysqli_close();
          die("Utilisateur prévenu, compte supprimé.");
     }
 
@@ -154,9 +154,9 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM.
 
         if($_GET["ok"]==1)
         {
-          exec_requete("update citoyen set valide=1,solde=50,notevendeur=5 where idcitoyen='".addslashes($_GET["avalider"])."'");
-          $req_mail=exec_requete("select mail from citoyen where idcitoyen='".$_GET["avalider"]."'");
-          $mail=mysql_fetch_array($req_mail);
+          exec_requete("update citoyen set valide=1,solde=50,notevendeur=5 where idcitoyen='".addslashes($_GET["avalider"])."'", $conn);
+          $req_mail=exec_requete("select mail from citoyen where idcitoyen='".$_GET["avalider"]."'", $conn);
+          $mail=mysqli_fetch_array($req_mail);
 
           mail($mail["mail"], "Validation de votre compte sur Monnaie M", "Félicitations, votre compte est maintenant entièrement validé. Vous pouvez commencer à utiliser l'espace d'échange Monnaie M.\nhttp://merome.net/monnaiem\n\n
   Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM."\r\n"
@@ -167,16 +167,16 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM.
         }
         else
         {
-          $ps=exec_requete("select * from citoyen where idcitoyen = '".$_GET["avalider"]."'");
-          if(mysql_num_rows($ps)==1)
+          $ps=exec_requete("select * from citoyen where idcitoyen = '".$_GET["avalider"]."'", $conn);
+          if(mysqli_num_rows($ps)==1)
           {
-            $compte=mysql_fetch_array($ps);
+            $compte=mysqli_fetch_array($ps);
             print_r($compte);
             echo("<a href=\"compte.php?avalider=".urlencode($_GET["avalider"])."&ok=1\">OK</a><br><form method=\"post\" action=\"compte.php\"><input type=\"hidden\" name=\"refuse\" value=\"".$_GET["avalider"]."\"><input type=\"text\" name=\"raison\"><input type=\"submit\" value=\"Refuser\"></form>");
           }
         }
 
-        mysql_close();
+        mysqli_close();
       }
       else
         echo("Seul l'administrateur du site a accès à cette page");
@@ -187,10 +187,10 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM.
     {
       include './requete.php';
 
-      $ps=exec_requete("select idcitoyen,valide from citoyen where md5(idcitoyen) = '".$_GET["valide"]."'");
-      if(mysql_num_rows($ps)==1)
+      $ps=exec_requete("select idcitoyen,valide from citoyen where md5(idcitoyen) = '".$_GET["valide"]."'", $conn);
+      if(mysqli_num_rows($ps)==1)
       {
-        $pseudo=mysql_fetch_array($ps);
+        $pseudo=mysqli_fetch_array($ps);
         if($pseudo["valide"]==1)
           echo("Le compte a déjà été validé par un administrateur, si vous n'avez pas reçu d'email, merci de vérifier votre filtre indésirables");
         else
@@ -200,7 +200,7 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM.
 							."X-Mailer: PHP/" . phpversion());
             echo("Votre adresse email a été validée. Votre compte doit maintenant être vérifié par un administrateur. Vous recevrez un email lorsque ce sera fait. Merci de votre patience.<br>");
         }
-        mysql_close();
+        mysqli_close();
         die();
       }
       else
@@ -210,7 +210,7 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM.
                                                             ."X-Mailer: PHP/" . phpversion());
 
     	}
-      mysql_close();
+      mysqli_close();
 
     }
 
@@ -218,15 +218,15 @@ Merci de votre intérêt pour cette expérimentation.\n\nMerome.","From: ".FROM.
     {
       include './requete.php';
 
-      $ps=exec_requete("select idcitoyen from citoyen where idcitoyen like '".$pseudo."'");
-      if(mysql_num_rows($ps)>0)
+      $ps=exec_requete("select idcitoyen from citoyen where idcitoyen like '".$pseudo."'", $conn);
+      if(mysqli_num_rows($ps)>0)
         echo("Ce pseudo est déjà utilisé, merci d'en choisir un autre<br>");
       else
       {
 
         $res=exec_requete("INSERT INTO `monnaiem`.`citoyen` (idcitoyen,`mdp`,`nom`,`prenom`,`adresse`,`cp`,`ville`,`tel`,`valide`,`mail`,dateadhesion) VALUES
                   ('".$pseudo."', '".md5($pass1)."', '".$nom."', '".$prenom."', '".$adresse."', '".$cp."', '".$ville."', '".$tel."', 0, '".$mail."',now())");
-        mysql_close();
+        mysqli_close();
 
         if($res)
         {

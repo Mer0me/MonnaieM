@@ -35,9 +35,9 @@ function affiche_annonce($annonce)
 
 function mesannonces()
 {
-    $massem1=mysql_fetch_array(exec_requete("select sum(solde) as massem1 from citoyen where valide=1"));
-    $massem2=mysql_fetch_array(exec_requete("select sum(prix) as massem2 from transaction where statut<>'Terminé' and statut<>'Proposé' and statut<>'Annulé'"));
-    $citoyens=mysql_fetch_array(exec_requete("select count(*) as population from citoyen where valide=1"));
+    $massem1=mysqli_fetch_array(exec_requete("select sum(solde) as massem1 from citoyen where valide=1"), $conn);
+    $massem2=mysqli_fetch_array(exec_requete("select sum(prix) as massem2 from transaction where statut<>'Terminé' and statut<>'Proposé' and statut<>'Annulé'"), $conn);
+    $citoyens=mysqli_fetch_array(exec_requete("select count(*) as population from citoyen where valide=1"), $conn);
 
     if(date("m")<12)
     {
@@ -52,11 +52,11 @@ function mesannonces()
     echo("<b>Prochain revenu de base le 1/".$mois."/".$annee." </b>: 0,8% * ".($massem1["massem1"]+$massem2["massem2"])." / ".($citoyens["population"])." = ".(ceil((0.8*($massem1["massem1"]+$massem2["massem2"])/100/$citoyens["population"])))." <img align=\"middle\" src=\"images/m.png\"><br></p>");
 
 
-    $mestransactions=exec_requete("select *,transaction.prix as prixt,to_days( now( ) ) - to_days( datevente ) as delai from transaction,produit,citoyen where acheteur=citoyen.idcitoyen and vendeur='".$_SESSION["citoyen"]["idcitoyen"]."' and statut<>'Terminé' and statut<>'Annulé' and transaction.idproduit=produit.idproduit");
-    if(mysql_num_rows($mestransactions)>0)
+    $mestransactions=exec_requete("select *,transaction.prix as prixt,to_days( now( ) ) - to_days( datevente ) as delai from transaction,produit,citoyen where acheteur=citoyen.idcitoyen and vendeur='".$_SESSION["citoyen"]["idcitoyen"]."' and statut<>'Terminé' and statut<>'Annulé' and transaction.idproduit=produit.idproduit", $conn);
+    if(mysqli_num_rows($mestransactions)>0)
     {
-      echo("<b>Vos ventes en cours : (".mysql_num_rows($mestransactions).")<b><br><table align=\"center\">");
-      while($annonce=mysql_fetch_array($mestransactions))
+      echo("<b>Vos ventes en cours : (".mysqli_num_rows($mestransactions).")<b><br><table align=\"center\">");
+      while($annonce=mysqli_fetch_array($mestransactions))
       {
         if($annonce["icone"]!="" && file_exists(str_replace("http://merome.net/","/var/www/",$annonce["icone"])))
           echo("<tr><td><img src=\"".$annonce["icone"]."\"></td><td>".$annonce["objet"]."</a> (".$annonce["prixt"]." <img align=\"middle\" src=\"images/m.png\">)</td><td>Vendu le : ".to_str($annonce["datevente"])." à ".$annonce["acheteur"]."<br>");
@@ -86,12 +86,12 @@ function mesannonces()
       echo("</table>");
     }
 
-    $mestransactions=exec_requete("select *,transaction.prix as prixt,to_days( now( ) ) - to_days( datevente ) as delai from transaction,produit where acheteur='".$_SESSION["citoyen"]["idcitoyen"]."' and statut<>'Terminé' and statut<>'Annulé' and transaction.idproduit=produit.idproduit");
-    if(mysql_num_rows($mestransactions)>0)
+    $mestransactions=exec_requete("select *,transaction.prix as prixt,to_days( now( ) ) - to_days( datevente ) as delai from transaction,produit where acheteur='".$_SESSION["citoyen"]["idcitoyen"]."' and statut<>'Terminé' and statut<>'Annulé' and transaction.idproduit=produit.idproduit", $conn);
+    if(mysqli_num_rows($mestransactions)>0)
     {
-      echo("<b>Vos achats en cours : (".mysql_num_rows($mestransactions).")<b><br><table align=\"center\">");
+      echo("<b>Vos achats en cours : (".mysqli_num_rows($mestransactions).")<b><br><table align=\"center\">");
 
-      while($annonce=mysql_fetch_array($mestransactions))
+      while($annonce=mysqli_fetch_array($mestransactions))
       {
         if($annonce["icone"]!="" && file_exists(str_replace("http://merome.net/","/var/www/",$annonce["icone"])))
           echo("<tr><td><img src=\"".$annonce["icone"]."\"></td><td>".$annonce["objet"]."</a> (".$annonce["prixt"]." <img align=\"middle\" src=\"images/m.png\">)</td><td><b>Commandé le : </b>".to_str($annonce["datevente"])." à <a href=\"mail.php?c=".$annonce["vendeur"]."\">".$annonce["vendeur"]."</a><br>");
@@ -109,16 +109,16 @@ function mesannonces()
     }
 
 
-    $mesannonces=exec_requete("select * from produit where nbex>0 and valide>0 and idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."'");
-    if(mysql_num_rows($mesannonces)==0)
+    $mesannonces=exec_requete("select * from produit where nbex>0 and valide>0 and idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."'", $conn);
+    if(mysqli_num_rows($mesannonces)==0)
     {
       echo("Vous n'avez rien à vendre pour l'instant.<br><br>");
     }
     else
     {
       echo("<a onclick=\"javascript:if(document.getElementById('mesannonces').style.display=='block') document.getElementById('mesannonces').style.display='none'; else document.getElementById('mesannonces').style.display='block'\">Cliquez ici pour voir ou faire disparaitre vos annonces en cours</a><br><div id=\"mesannonces\" style=\"display:none;\"><br>");
-      echo("<b>Vos annonces en cours : (".mysql_num_rows($mesannonces).")<b><br><table align=\"center\">");
-      while($annonce=mysql_fetch_array($mesannonces))
+      echo("<b>Vos annonces en cours : (".mysqli_num_rows($mesannonces).")<b><br><table align=\"center\">");
+      while($annonce=mysqli_fetch_array($mesannonces))
       {
         if($annonce["typeannonce"]=="demande")
           echo("<tr bgcolor=\"#D0F000\"><td><img src=\"".$annonce["icone"]."\"></td><td><a href=\"demande.php?modif=".$annonce["idproduit"]."\">".$annonce["objet"]."</a> (".

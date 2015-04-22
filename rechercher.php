@@ -36,8 +36,8 @@
 
     if($_GET["criteres"]=="dep")
     {
-      $mondep=exec_requete("select cp from citoyen where idcitoyen like '".$_SESSION["citoyen"]["idcitoyen"]."'");
-      $dep=mysql_fetch_array($mondep);
+      $mondep=exec_requete("select cp from citoyen where idcitoyen like '".$_SESSION["citoyen"]["idcitoyen"]."'", $conn);
+      $dep=mysqli_fetch_array($mondep);
 
       $resultats=exec_requete("select *,citoyen.idcitoyen as cit from produit,citoyen where citoyen.idcitoyen=produit.idcitoyen and nbex>0 and produit.valide=1 and (dateexpiration=0 or dateexpiration>=now()) and
             substring(cp,1,2)='".substr($dep["cp"],0,2)."' order by
@@ -54,11 +54,11 @@
           or description like '%".$_POST["criteres"]."%') order by match(objet,description) against ('".$_POST["criteres"]."') desc,datesaisie desc");
     }
     $i=0;
-    if(mysql_num_rows($resultats)>0)
+    if(mysqli_num_rows($resultats)>0)
     {
       echo("<b>Résultats correspondants à la recherche :</b><br><table align=\"center\">");
 
-      while(($annonce=mysql_fetch_array($resultats)) && $i<50)
+      while(($annonce=mysqli_fetch_array($resultats)) && $i<50)
       {
         affiche_annonce($annonce);
         $i++;
@@ -71,7 +71,7 @@
 
 
 
-  mysql_close();
+  mysqli_close();
 
 
 

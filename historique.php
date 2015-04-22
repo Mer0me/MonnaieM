@@ -33,32 +33,32 @@
 
     echo("<a onclick=\"javascript:if(document.getElementById('global').style.display=='block') document.getElementById('global').style.display='none'; else document.getElementById('global').style.display='block'\">Cliquez ici pour voir ou faire disparaitre l'historique global de Monnaie M</a><br><br>");
 
-    $historiques=exec_requete("select * from historique order by datemesure");
+    $historiques=exec_requete("select * from historique order by datemesure", $conn);
     echo("<div id=\"global\" style=\"display:none;\"><table border=\"1\" align=\"center\"><tr align=\"center\"><td>Date</td><td>Nombre d'utilisateurs</td><td>Masse monétaire totale (après revenu)</td><td>Masse monétaire moyenne</td><td>Revenu de base</td></tr>");
-    while($historique=mysql_fetch_array($historiques))
+    while($historique=mysqli_fetch_array($historiques))
     {
       echo("<tr align=\"center\"><td>".to_str($historique["datemesure"])."</td><td>".$historique["nbutilisateurs"]."</td><td>".$historique["massetotale"]."&nbsp;<img align=\"middle\" src=\"images/m.png\"></td><td>".$historique["massemoyenne"]."&nbsp;<img align=\"middle\" src=\"images/m.png\"></td><td>".$historique["rdb"]."&nbsp;<img align=\"middle\" src=\"images/m.png\"></td></tr>");
     }
     echo("</table><br><br></div>");
 
-    $listes=exec_requete("select idcitoyen from citoyen where valide=1 and citoyen.idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."'");
-    while($liste=mysql_fetch_array($listes))
+    $listes=exec_requete("select idcitoyen from citoyen where valide=1 and citoyen.idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."'", $conn);
+    while($liste=mysqli_fetch_array($listes))
     {
 
 
     $nomh=$liste["idcitoyen"];
     echo("Historique de <b>".$nomh."</b>");
 
-    $ccitoyen=mysql_fetch_array(exec_requete("select dateadhesion,solde from citoyen where idcitoyen='".$nomh."'"));
+    $ccitoyen=mysqli_fetch_array(exec_requete("select dateadhesion,solde from citoyen where idcitoyen='".$nomh."'"), $conn);
     $solde=50;
 
     echo("<table border=\"1\" align=\"center\"><tr><td>Date</td><td>Acheteur</td><td>Vendeur</td><td>Evènement</td><td>Note</td><td>Commentaires de l'acheteur</td><td>Solde</td></tr>
           <tr><td>".to_str($ccitoyen["dateadhesion"])."</td><td>&nbsp;</td><td>&nbsp;</td><td>Inscription à Monnaie M</td><td>&nbsp;</td><td>&nbsp;</td><td>50&nbsp;<img align=\"middle\" src=\"images/m.png\"></td>");
 
-      $transactions=exec_requete("select *,transaction.prix as prixt from citoyen,transaction,produit where ((vendeur=citoyen.idcitoyen) or (acheteur=citoyen.idcitoyen)) and produit.idproduit=transaction.idproduit and citoyen.idcitoyen='".$nomh."' order by datevente");
-      if(mysql_num_rows($transactions)>0)
+      $transactions=exec_requete("select *,transaction.prix as prixt from citoyen,transaction,produit where ((vendeur=citoyen.idcitoyen) or (acheteur=citoyen.idcitoyen)) and produit.idproduit=transaction.idproduit and citoyen.idcitoyen='".$nomh."' order by datevente", $conn);
+      if(mysqli_num_rows($transactions)>0)
       {
-        while ($transaction=mysql_fetch_array($transactions))
+        while ($transaction=mysqli_fetch_array($transactions))
         {
           if($transaction["vendeur"]==$nomh)
           {
@@ -102,7 +102,7 @@
     }
     echo("</div>");
 
-    mysql_close();
+    mysqli_close();
 ?>
   </body>
 </html>

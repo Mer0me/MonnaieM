@@ -32,20 +32,20 @@
 
     if($_POST["recu"]>0)
     {
-      $transactions=exec_requete("select *,transaction.prix as prixt from transaction,citoyen,produit where produit.idproduit=transaction.idproduit and vendeur=citoyen.idcitoyen and idtransaction=".$_POST["recu"]);
-      if(mysql_num_rows($transactions)==1)
+      $transactions=exec_requete("select *,transaction.prix as prixt from transaction,citoyen,produit where produit.idproduit=transaction.idproduit and vendeur=citoyen.idcitoyen and idtransaction=".$_POST["recu"], $conn);
+      if(mysqli_num_rows($transactions)==1)
       {
-        $transaction=mysql_fetch_array($transactions);
+        $transaction=mysqli_fetch_array($transactions);
         // Je suis bien le vendeur
         if($transaction["acheteur"]==$_SESSION["citoyen"]["idcitoyen"])
         {
-            exec_requete("update transaction set statut='Terminé',note=".$_POST["note"].",commentaires='".$_POST["commentaires"]."' where idtransaction=".$_POST["recu"]);
-            $moyennes=exec_requete("select avg(note) as moy from transaction where vendeur='".$transaction["vendeur"]."' and statut='Terminé'");
-            $moyenne=mysql_fetch_array($moyennes);
-            exec_requete("update citoyen set solde=solde+".$transaction["prixt"].",nbventes=nbventes+1,notevendeur=".$moyenne["moy"]." where idcitoyen='".$transaction["vendeur"]."'");
-            $moyennes=exec_requete("select avg(note) as moy from transaction where acheteur='".$transaction["acheteur"]."'");
-            $moyenne=mysql_fetch_array($moyennes);
-            exec_requete("update citoyen set noteacheteur=".$moyenne["moy"]." where idcitoyen='".$transaction["acheteur"]."'");
+            exec_requete("update transaction set statut='Terminé',note=".$_POST["note"].",commentaires='".$_POST["commentaires"]."' where idtransaction=".$_POST["recu"], $conn);
+            $moyennes=exec_requete("select avg(note) as moy from transaction where vendeur='".$transaction["vendeur"]."' and statut='Terminé'", $conn);
+            $moyenne=mysqli_fetch_array($moyennes);
+            exec_requete("update citoyen set solde=solde+".$transaction["prixt"].",nbventes=nbventes+1,notevendeur=".$moyenne["moy"]." where idcitoyen='".$transaction["vendeur"]."'", $conn);
+            $moyennes=exec_requete("select avg(note) as moy from transaction where acheteur='".$transaction["acheteur"]."'", $conn);
+            $moyenne=mysqli_fetch_array($moyennes);
+            exec_requete("update citoyen set noteacheteur=".$moyenne["moy"]." where idcitoyen='".$transaction["acheteur"]."'", $conn);
             echo("Cette transaction est maintenant terminée. Merci.<br>");
         }
         else
@@ -56,16 +56,16 @@
 
     if($_POST["annule"]>0)
     {
-      $transactions=exec_requete("select *,transaction.prix as prixt from transaction,citoyen,produit where produit.idproduit=transaction.idproduit and acheteur=citoyen.idcitoyen and idtransaction=".$_POST["annule"]);
-      if(mysql_num_rows($transactions)==1)
+      $transactions=exec_requete("select *,transaction.prix as prixt from transaction,citoyen,produit where produit.idproduit=transaction.idproduit and acheteur=citoyen.idcitoyen and idtransaction=".$_POST["annule"], $conn);
+      if(mysqli_num_rows($transactions)==1)
       {
-        $transaction=mysql_fetch_array($transactions);
+        $transaction=mysqli_fetch_array($transactions);
         // Je suis bien le vendeur
         if($transaction["vendeur"]==$_SESSION["citoyen"]["idcitoyen"])
         {
-            exec_requete("update transaction set statut='Annulé' where idtransaction=".$_POST["annule"]);
+            exec_requete("update transaction set statut='Annulé' where idtransaction=".$_POST["annule"], $conn);
             echo("Cette transaction est maintenant annulée.<br>");
-            exec_requete("update citoyen set solde=solde+".$transaction["prixt"]." where idcitoyen='".$transaction["acheteur"]."'");
+            exec_requete("update citoyen set solde=solde+".$transaction["prixt"]." where idcitoyen='".$transaction["acheteur"]."'", $conn);
             mail($transaction["mail"], "Annulation de votre achat sur Monnaie M",
                       "Le vendeur vient d'annuler la vente du produit ".$transaction["objet"].". ".$transaction["prixt"]." M ont été recrédités sur votre compte.\r\n",
                       "From: ".FROM."\r\n"
@@ -74,7 +74,7 @@
         }
         if($transaction["acheteur"]==$_SESSION["citoyen"]["idcitoyen"])
         {
-            exec_requete("update transaction set statut='Annulé' where idtransaction=".$_POST["annule"]);
+            exec_requete("update transaction set statut='Annulé' where idtransaction=".$_POST["annule"], $conn);
             echo("Cette transaction est maintenant annulée.<br>");
         }
       }
@@ -82,14 +82,14 @@
 
     if($_POST["confirme"]>0)
     {
-      $transactions=exec_requete("select *,transaction.prix as prixt from transaction,citoyen,produit where produit.idproduit=transaction.idproduit and acheteur=citoyen.idcitoyen and idtransaction=".$_POST["confirme"]);
-      if(mysql_num_rows($transactions)==1)
+      $transactions=exec_requete("select *,transaction.prix as prixt from transaction,citoyen,produit where produit.idproduit=transaction.idproduit and acheteur=citoyen.idcitoyen and idtransaction=".$_POST["confirme"], $conn);
+      if(mysqli_num_rows($transactions)==1)
       {
-        $transaction=mysql_fetch_array($transactions);
+        $transaction=mysqli_fetch_array($transactions);
         // Je suis bien le vendeur
         if($transaction["vendeur"]==$_SESSION["citoyen"]["idcitoyen"] && $transaction["statut"]=="Commandé")
         {
-            exec_requete("update transaction set statut='confirmé' where idtransaction=".$_POST["confirme"]);
+            exec_requete("update transaction set statut='confirmé' where idtransaction=".$_POST["confirme"], $conn);
             if($transaction["port"]==1)
             {
               echo("Cette transaction est maintenant confirmée. L'acheteur a choisi un envoi par la Poste.<br>Vous avez une semaine pour la transmettre à l'acheteur :<br>".
@@ -116,13 +116,13 @@
         {
           if($transaction["acheteur"]==$_SESSION["citoyen"]["idcitoyen"] && $transaction["statut"]=="Proposé")
           {
-	    $transactions=exec_requete("select *,transaction.prix as prixt from transaction,citoyen,produit where produit.idproduit=transaction.idproduit and vendeur=citoyen.idcitoyen and idtransaction=".$_POST["confirme"]);
-	    $transaction=mysql_fetch_array($transactions);
+	    $transactions=exec_requete("select *,transaction.prix as prixt from transaction,citoyen,produit where produit.idproduit=transaction.idproduit and vendeur=citoyen.idcitoyen and idtransaction=".$_POST["confirme"], $conn);
+	    $transaction=mysqli_fetch_array($transactions);
 
-            exec_requete("update transaction set statut='confirmé' where idtransaction=".$_POST["confirme"]);
+            exec_requete("update transaction set statut='confirmé' where idtransaction=".$_POST["confirme"], $conn);
               echo("Cette transaction est maintenant confirmée.<br>Vous pouvez communiquer avec le vendeur <a href=\"http://merome.net/monnaiem/mail.php?c=".urlencode($transaction["vendeur"])."\">en cliquant ici</a><br><br>");
 
-              exec_requete("update citoyen set solde=solde-".$transaction["prixt"]. " where idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."'");
+              exec_requete("update citoyen set solde=solde-".$transaction["prixt"]. " where idcitoyen='".$_SESSION["citoyen"]["idcitoyen"]."'", $conn);
 
               mail($transaction["mail"], "Votre proposition a été validée sur Monnaie M",
                     $_SESSION["citoyen"]["idcitoyen"]." vient de valider votre proposition pour le produit ou service ".$transaction["objet"]." pour ".$transaction["prixt"]." M. Merci de lui faire parvenir rapidement sa commande. Votre compte sera crédité lorsqu'il l'aura réceptionnée.\r\n",
@@ -148,10 +148,10 @@
 
     if($_GET["t"]>0)
     {
-      $transactions=exec_requete("select *,transaction.prix as prixt from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_GET["t"]);
-      if(mysql_num_rows($transactions)==1)
+      $transactions=exec_requete("select *,transaction.prix as prixt from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_GET["t"], $conn);
+      if(mysqli_num_rows($transactions)==1)
       {
-        $transaction=mysql_fetch_array($transactions);
+        $transaction=mysqli_fetch_array($transactions);
         // Je suis l'acheteur
         if($transaction["acheteur"]==$_SESSION["citoyen"]["idcitoyen"])
         {
@@ -248,7 +248,7 @@
 
 
 
-  mysql_close();
+  mysqli_close();
 
 
 

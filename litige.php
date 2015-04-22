@@ -32,12 +32,12 @@
 
     if($_POST["tr"]!="")
     {
-      $transaction=mysql_fetch_array(exec_requete("select * from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_POST["tr"]));
+      $transaction=mysqli_fetch_array(exec_requete("select * from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_POST["tr"]), $conn);
       if($transaction["acheteur"]==$_SESSION["citoyen"]["idcitoyen"] || $transaction["vendeur"]==$_SESSION["citoyen"]["idcitoyen"])
       {
-//        $citoyens=exec_requete("select mail from citoyen where idcitoyen='".$transaction["acheteur"]."' or idcitoyen='".$transaction["vendeur"]."' or idcitoyen='Merome'");
-        $citoyens=exec_requete("select mail,idcitoyen from citoyen where idcitoyen='Merome'");
-        while($citoyen1=mysql_fetch_array($citoyens))
+//        $citoyens=exec_requete("select mail from citoyen where idcitoyen='".$transaction["acheteur"]."' or idcitoyen='".$transaction["vendeur"]."' or idcitoyen='Merome'", $conn);
+        $citoyens=exec_requete("select mail,idcitoyen from citoyen where idcitoyen='Merome'", $conn);
+        while($citoyen1=mysqli_fetch_array($citoyens))
         {
             if(mail($citoyen1["mail"], "[Monnaie M] ".$_SESSION["citoyen"]["idcitoyen"]." signale un problème sur la transaction concernant \"".$transaction["objet"]."\"",
                     "Ce message a été envoyé par ".$_SESSION["citoyen"]["idcitoyen"]." depuis le site Monnaie M. Merci de ne pas utiliser le bouton 'Répondre' de votre messagerie, mais ce lien : http://merome.net/monnaiem/mail.php?id=".$citoyen1["code"]."&c=".urlencode($_SESSION["citoyen"]["idcitoyen"])." pour lui faire une réponse.\r\n\r\n".stripslashes($_POST["contenu"])."\r\n".
@@ -58,7 +58,7 @@
 
     if($_GET["t"]>0)
     {
-      $transaction=mysql_fetch_array(exec_requete("select * from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_GET["t"]));
+      $transaction=mysqli_fetch_array(exec_requete("select * from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_GET["t"]), $conn);
       if($transaction["acheteur"]==$_SESSION["citoyen"]["idcitoyen"] || $transaction["vendeur"]==$_SESSION["citoyen"]["idcitoyen"])
       {
         echo("Vous pouvez utiliser ce formulaire pour demander l'annulation de la transaction, pour informer l'acheteur ou le vendeur d'un retard ou d'un problème quelconque...<br><br>");
@@ -78,7 +78,7 @@
 
 
 
-  mysql_close();
+  mysqli_close();
 
 
 

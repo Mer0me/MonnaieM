@@ -33,11 +33,11 @@ function affiche_annonce($annonce)
     }
 }
 
-function mesannonces()
+function mesannonces($conn)
 {
-    $massem1=mysqli_fetch_array(exec_requete("select sum(solde) as massem1 from citoyen where valide=1"), $conn);
-    $massem2=mysqli_fetch_array(exec_requete("select sum(prix) as massem2 from transaction where statut<>'Terminé' and statut<>'Proposé' and statut<>'Annulé'"), $conn);
-    $citoyens=mysqli_fetch_array(exec_requete("select count(*) as population from citoyen where valide=1"), $conn);
+    $massem1=mysqli_fetch_array(exec_requete("select sum(solde) as massem1 from citoyen where valide=1", $conn));
+    $massem2=mysqli_fetch_array(exec_requete("select sum(prix) as massem2 from transaction where statut<>'Terminé' and statut<>'Proposé' and statut<>'Annulé'", $conn));
+    $citoyens=mysqli_fetch_array(exec_requete("select count(*) as population from citoyen where valide=1", $conn));
 
     if(date("m")<12)
     {

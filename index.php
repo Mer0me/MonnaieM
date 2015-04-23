@@ -7,6 +7,7 @@
  +-------------------------------------------------------------------------+
 */
     session_start();
+
     include './requete.php';
     include './fonctions_annonces.php';
 ?>
@@ -118,7 +119,7 @@
 
     echo("<a target=\"_new\" href=\"http://merome.net/monnaiem/phpBB3\">Accéder au forum de monnaie M</a><br>");
 
-    mesannonces();
+    mesannonces($conn);
 
     $cats=exec_requete("select distinct(categorie) from produit where produit.valide=1 and nbex>0", $conn);
     while($cat=mysqli_fetch_array($cats))

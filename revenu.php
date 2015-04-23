@@ -25,9 +25,9 @@
 
   if(date("d")==1)
   {
-    $massem1=mysqli_fetch_array(exec_requete("select sum(solde) as massem1 from citoyen where valide=1"), $conn);
-    $massem2=mysqli_fetch_array(exec_requete("select sum(prix) as massem2 from transaction where statut<>'Terminé' and statut<>'Proposé' and statut<>'Annulé'"), $conn);
-    $populations=mysqli_fetch_array(exec_requete("select count(*) as population from citoyen where valide=1"), $conn);
+    $massem1=mysqli_fetch_array(exec_requete("select sum(solde) as massem1 from citoyen where valide=1", $conn));
+    $massem2=mysqli_fetch_array(exec_requete("select sum(prix) as massem2 from transaction where statut<>'Terminé' and statut<>'Proposé' and statut<>'Annulé'", $conn));
+    $populations=mysqli_fetch_array(exec_requete("select count(*) as population from citoyen where valide=1", $conn));
 
     $revenu=ceil((0.8*($massem1["massem1"]+$massem2["massem2"])/100/$populations["population"]));
     exec_requete("update citoyen set solde=solde+".$revenu." where valide=1", $conn);

@@ -32,7 +32,7 @@
 
     if($_POST["tr"]!="")
     {
-      $transaction=mysqli_fetch_array(exec_requete("select * from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_POST["tr"]), $conn);
+      $transaction=mysqli_fetch_array(exec_requete("select * from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_POST["tr"], $conn));
       if($transaction["acheteur"]==$_SESSION["citoyen"]["idcitoyen"] || $transaction["vendeur"]==$_SESSION["citoyen"]["idcitoyen"])
       {
 //        $citoyens=exec_requete("select mail from citoyen where idcitoyen='".$transaction["acheteur"]."' or idcitoyen='".$transaction["vendeur"]."' or idcitoyen='Merome'", $conn);
@@ -58,7 +58,7 @@
 
     if($_GET["t"]>0)
     {
-      $transaction=mysqli_fetch_array(exec_requete("select * from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_GET["t"]), $conn);
+      $transaction=mysqli_fetch_array(exec_requete("select * from transaction,produit where transaction.idproduit=produit.idproduit and idtransaction=".$_GET["t"], $conn));
       if($transaction["acheteur"]==$_SESSION["citoyen"]["idcitoyen"] || $transaction["vendeur"]==$_SESSION["citoyen"]["idcitoyen"])
       {
         echo("Vous pouvez utiliser ce formulaire pour demander l'annulation de la transaction, pour informer l'acheteur ou le vendeur d'un retard ou d'un problème quelconque...<br><br>");

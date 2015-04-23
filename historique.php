@@ -49,7 +49,7 @@
     $nomh=$liste["idcitoyen"];
     echo("Historique de <b>".$nomh."</b>");
 
-    $ccitoyen=mysqli_fetch_array(exec_requete("select dateadhesion,solde from citoyen where idcitoyen='".$nomh."'"), $conn);
+    $ccitoyen=mysqli_fetch_array(exec_requete("select dateadhesion,solde from citoyen where idcitoyen='".$nomh."'", $conn));
     $solde=50;
 
     echo("<table border=\"1\" align=\"center\"><tr><td>Date</td><td>Acheteur</td><td>Vendeur</td><td>Evènement</td><td>Note</td><td>Commentaires de l'acheteur</td><td>Solde</td></tr>
